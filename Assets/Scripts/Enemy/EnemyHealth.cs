@@ -1,17 +1,20 @@
 ﻿// Rory Clark - https://rory.games - 2019
+
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour
-{
-    [SerializeField]
-    float m_health = 20f;
-
-    public void DamageEnemy(float _damage)
+namespace Enemy {
+    public class EnemyHealth : MonoBehaviour
     {
-        m_health -= _damage;
-        if(m_health <= 0)
+        [SerializeField]
+        float m_health = 20f;
+
+        public void DamageEnemy(float _damage)
         {
-            Destroy(gameObject);
+            m_health -= _damage;
+            if(m_health <= 0)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

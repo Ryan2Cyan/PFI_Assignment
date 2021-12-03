@@ -1,37 +1,42 @@
 ﻿// Rory Clark - https://rory.games - 2019
+
 using UnityEngine;
 
 // Small utility script that will scale the object from 0 to desired over time
 // Once the scale is reached it will then remove itself (only the script) from the object to prevent it using any further performance
-public class EnemyScaleSpawn : MonoBehaviour
-{
-    [SerializeField]
-    float m_desiredScale = 2f, m_lerpTime = 1f;
-
-    float m_time = 0, m_currentScale = 0f;
-
-    private void Awake()
+namespace Enemy {
+    public class EnemyScaleSpawn : MonoBehaviour
     {
-        transform.localScale = Vector3.zero;
-    }
+        [SerializeField]
+        float m_desiredScale = 2f, m_lerpTime = 1f;
 
-    private void Update()
-    {
-        m_time += Time.deltaTime;
+        float m_time = 0, m_currentScale = 0f;
 
-        if(m_time > m_lerpTime)
+        private void Awake()
         {
-            m_time = m_lerpTime;
+            // Set asteroid scale to (0,0,0):
+            transform.localScale = Vector3.zero;
         }
 
-        m_currentScale = Mathf.Lerp(0, m_desiredScale, m_time/m_lerpTime);
-
-        transform.localScale = new Vector3(m_currentScale, m_currentScale, m_currentScale);
-
-        if(m_time >= m_lerpTime)
+        private void Update()
         {
-            Destroy(this);
+            m_time += Time.deltaTime;
+
+            if(m_time > m_lerpTime)
+            {
+                m_time = m_lerpTime;
+            }
+
+            // Lerp between 0 and 2:
+            m_currentScale = Mathf.Lerp(0, m_desiredScale, m_time/m_lerpTime);
+           
+            // Set currentScale to the localScale:
+            transform.localScale = new Vector3(m_currentScale, m_currentScale, m_currentScale);
+
+            if(m_time >= m_lerpTime)
+            {
+                Destroy(this);
+            }
         }
     }
-
 }
