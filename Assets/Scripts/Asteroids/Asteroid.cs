@@ -1,34 +1,31 @@
 ﻿using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Asteroids {
-    public class Asteroid {
-        private float _health;
+    public class Asteroid : MonoBehaviour{
+
+        [SerializeField] private float _health;
         public float Health => _health;
         
-        private float _velocity;
+        [SerializeField] private float _velocity;
         public float Velocity => _velocity;
         
-        private float _spawnRate;
+        [SerializeField] private float _spawnRate;
         public float SpawnRate => _spawnRate;
 
-        private Vector3 _scale;
+        [SerializeField] private Vector3 _scale;
         public Vector3 Scale => _scale;
 
-        private int _scoreValue;
+        [SerializeField] private int _scoreValue;
         public int ScoreValue => _scoreValue;
 
-        private AsteroidType _asteroidType;
+        [SerializeField] private AsteroidType _asteroidType;
         public AsteroidType AsteroidType => _asteroidType;
-
-        private GameObject _asteroidPrefab;
-        public GameObject AsteroidPrefab => _asteroidPrefab;
-    
-        // Constructor:
-        public Asteroid(AsteroidType asteroidType) {
+        
+        private void Awake() {
             
-            // Assign Asteroid Prefab:
-            _asteroidPrefab = Resources.Load<GameObject>("Prefabs/Enemy");
+            var asteroidType = (AsteroidType) Random.Range(0, 5);
             
             // Assign all the asteroids properties on initialisation based on an enum input param.
             switch (asteroidType) {
@@ -75,6 +72,12 @@ namespace Asteroids {
                 default:
                     throw new ArgumentOutOfRangeException(nameof(asteroidType), asteroidType, null);
             }
+            
+            transform.localScale = Scale;
+        }
+
+        private void Update() {
+            
         }
     }
 

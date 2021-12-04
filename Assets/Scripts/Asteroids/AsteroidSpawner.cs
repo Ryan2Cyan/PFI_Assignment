@@ -5,20 +5,23 @@ using Random = UnityEngine.Random;
 
 public class AsteroidSpawner : MonoBehaviour {
     
-    [SerializeField] private const GameObject AsteroidPrefab = null;
-    [SerializeField] private float currentTime;
-    [SerializeField] private const float MINSpawnTime = -1.5f;
-    [SerializeField] private const float MAXSpawnTime = 1.5f;
-    [SerializeField] private const float MAXSpawnWidth = 9.5f;
-    [SerializeField] private const float MINSpawnWidth = 0f;
+    private float currentTime = 2f;
+    private const float MINSpawnTime = -1.5f;
+    private const float MAXSpawnTime = 1.5f;
+    private const float MAXSpawnWidth = 9.5f;
+    private const float MINSpawnWidth = -9.5f;
+    private GameObject _asteroidPrefab;
+
+    private void Awake() {
+        _asteroidPrefab = Resources.Load<GameObject>("Prefabs/Enemy");
+    }
 
     private void Update() {
         
         currentTime -= Time.deltaTime;
-        if (currentTime <= 0) {
-            currentTime = RandomSpawnTime(MINSpawnTime, MAXSpawnTime);
-            SpawnAsteroid();
-        }
+        if (!(currentTime <= 0)) return;
+        currentTime = RandomSpawnTime(MINSpawnTime, MAXSpawnTime);
+        SpawnAsteroid();
     }
 
     // Randomly generates a spawn time for asteroid:
@@ -28,9 +31,8 @@ public class AsteroidSpawner : MonoBehaviour {
 
     // Spawns an asteroid:
     private void SpawnAsteroid() {
-        var newAsteroidType = new Asteroid((AsteroidType)Random.Range(0, 5));
-        var go = Instantiate(newAsteroidType.AsteroidPrefab, transform, true);
-        go.transform.localScale = newAsteroidType.Scale;
+        var go = Instantiate(_asteroidPrefab);
+        go.transform.SetParent(transform);
         go.transform.localPosition = new Vector3(0, 0, Random.Range(MINSpawnWidth, MAXSpawnWidth));
     }
 }

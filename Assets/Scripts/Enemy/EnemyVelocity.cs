@@ -33,7 +33,7 @@ namespace Enemy {
             // Hard coded the position however same principle as in bullet velocity
             if (transform.position.x <= -20)
             {
-                // Destroy(gameObject);
+                Destroy(gameObject);
             }
         }
     }
