@@ -33,10 +33,10 @@ namespace Enemy {
             // Set currentScale to the localScale:
             transform.localScale = new Vector3(m_currentScale, m_currentScale, m_currentScale);
 
-            if(m_time >= m_lerpTime)
-            {
-                Destroy(this);
-            }
+            // if(m_time >= m_lerpTime)
+            // {
+            //     Destroy(this);
+            // }
         }
     }
 }

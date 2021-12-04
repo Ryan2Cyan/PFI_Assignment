@@ -1,36 +1,42 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class NewScript : MonoBehaviour
-{
-    // private void Start() {
-    //     string ninoTest = "AR999311";
-    //     Debug.Log(ValidateNino(ninoTest));
-    // }
-    //
-    // // Define Func Conditional(s):
-    // private readonly Func<string, bool> _mustHaveLengthOf9 = x => x.Length == 9;
-    //
-    // // Define Function to Check NINO:
-    // public bool ValidateNino(string nino) =>
-    //     new[] {
-    //         _mustHaveLengthOf9
-    //     }.All(x => x(nino.Replace(" ", "")));
-    //
-    //
-    // // Define Validate Function:
-    // public static bool Validate<TInput>(this TInput @this, params Func<TInput, bool>[] predicates) =>
-    //     predicates.All(x => x(@this));
-    //
-    // // Define Function to Check NINO:
-    // public bool ValidateNino2(string nino) =>
-    //     nino.Replace(" ", "")
-    //         .Validate(
-    //             _mustHaveLengthOf9
-    //         );
+
+public class NewScript : MonoBehaviour {
+    private void Start() {
+        // Mixed Datatype Collection:
+        IList mixedList = new ArrayList();
+        mixedList.Add(0);
+        mixedList.Add("One");
+        mixedList.Add("Two");
+        mixedList.Add(3);
+        mixedList.Add(new Student() {StudentID = 1, StudentName = "Bill"});
+        
+        // TypeOf Clause in Query Syntax (Filter All String Variables):
+        var stringResult = from s in mixedList.OfType<string>()
+            select s;
+        
+        // TypeOf Clause in Query Syntax (Filter All Integer Variables):
+        var intResult = from s in mixedList.OfType<int>()
+            select s;
+
+        foreach (var s in intResult) {
+            Debug.Log(s);
+        }
+
+    }
+
+    class Student
+    {
+        public int StudentID { get; set; }
+        public String StudentName { get; set; }
+        public int Age { get; set; }
+    }
 }
+
 
 
 
