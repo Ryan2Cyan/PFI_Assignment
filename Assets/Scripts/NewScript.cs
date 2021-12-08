@@ -7,26 +7,29 @@ using UnityEngine;
 
 public class NewScript : MonoBehaviour {
     private void Start() {
-        // Mixed Datatype Collection:
-        IList mixedList = new ArrayList();
-        mixedList.Add(0);
-        mixedList.Add("One");
-        mixedList.Add("Two");
-        mixedList.Add(3);
-        mixedList.Add(new Student() {StudentID = 1, StudentName = "Bill"});
         
-        // TypeOf Clause in Query Syntax (Filter All String Variables):
-        var stringResult = from s in mixedList.OfType<string>()
-            select s;
-        
-        // TypeOf Clause in Query Syntax (Filter All Integer Variables):
-        var intResult = from s in mixedList.OfType<int>()
-            select s;
+        // Define Student List:
+        IList<Student> studentList = new List<Student>() { 
+            new Student() { StudentID = 1, StudentName = "John", Age = 18 } ,
+            new Student() { StudentID = 2, StudentName = "Steve",  Age = 21 } ,
+            new Student() { StudentID = 3, StudentName = "Bill",  Age = 18 } ,
+            new Student() { StudentID = 4, StudentName = "Ram" , Age = 20 } ,
+            new Student() { StudentID = 5, StudentName = "Abram" , Age = 21 } 
+        };
 
-        foreach (var s in intResult) {
-            Debug.Log(s);
+
+        // GroupBy Query in Query Syntax [group by age]:
+        var groupByQuery = from s in studentList
+            group s by s.Age;
+        
+        // Iterate through each group:
+        foreach (var ageGroup in groupByQuery) {
+            Debug.Log("Age Group Key:" + ageGroup.Key); // Each group has a key
+
+            foreach (var s in ageGroup) {
+                Debug.Log("Student Name: " + s.StudentName);
+            }
         }
-
     }
 
     class Student
@@ -35,6 +38,18 @@ public class NewScript : MonoBehaviour {
         public String StudentName { get; set; }
         public int Age { get; set; }
     }
+    
+    /*
+    * This code produces the following results:
+    * AgeGroup: 18
+     * StudentName: John
+     * StudentName: Bill
+    * Age Group 21:
+     * StudentName: Steve
+     * StudentName: Abram
+    * Age Group 20:
+     * Ram
+    */
 }
 
 

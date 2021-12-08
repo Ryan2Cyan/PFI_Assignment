@@ -134,7 +134,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8256825371898731569}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fcf358c7914451344a8a3a0a8763e391, type: 3}
   m_Name: 
@@ -182,9 +182,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28974912f30d82b44bcb2e32db57486a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 0
-  _velocity: 0
-  _spawnRate: 0
-  _scale: {x: 0, y: 0, z: 0}
-  _scoreValue: 0
-  _asteroidType: 0
+  health: 0
+  velocity: 0
+  spawnRate: 0
+  scale: {x: 0, y: 0, z: 0}
+  scoreValue: 0
+  asteroidType: 0

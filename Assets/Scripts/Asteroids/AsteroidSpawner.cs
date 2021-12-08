@@ -18,10 +18,10 @@ public class AsteroidSpawner : MonoBehaviour {
 
     private void Update() {
         
-        currentTime -= Time.deltaTime;
-        if (!(currentTime <= 0)) return;
-        currentTime = RandomSpawnTime(MINSpawnTime, MAXSpawnTime);
-        SpawnAsteroid();
+        // currentTime -= Time.deltaTime;
+        // if (!(currentTime <= 0)) return;
+        // currentTime = RandomSpawnTime(MINSpawnTime, MAXSpawnTime);
+        // SpawnAsteroid();
     }
 
     // Randomly generates a spawn time for asteroid:
