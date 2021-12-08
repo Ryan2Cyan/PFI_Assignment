@@ -14,9 +14,7 @@ GameObject:
   - component: {fileID: 8256825371898731577}
   - component: {fileID: 8256825371898731570}
   - component: {fileID: 8256825371898731574}
-  - component: {fileID: 8256825371898731571}
   - component: {fileID: 8256825371898731568}
-  - component: {fileID: 611817777061192101}
   - component: {fileID: 6387900150673501398}
   m_Layer: 0
   m_Name: Enemy
@@ -127,22 +125,6 @@ ConstantForce:
   m_RelativeForce: {x: 0, y: 0, z: 0}
   m_Torque: {x: 0, y: 0, z: 0}
   m_RelativeTorque: {x: 0, y: 0, z: 0}
---- !u!114 &8256825371898731571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8256825371898731569}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcf358c7914451344a8a3a0a8763e391, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_minRandomVelocity: 1
-  m_maxRandomVelocity: 20
-  m_minRandomTorque: -100
-  m_maxRandomTorque: 100
 --- !u!114 &8256825371898731568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,20 +138,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 10
---- !u!114 &611817777061192101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8256825371898731569}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cac591a991d5934a9becd673448af35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_desiredScale: 2
-  m_lerpTime: 2
 --- !u!114 &6387900150673501398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,3 +156,4 @@ MonoBehaviour:
   scale: {x: 0, y: 0, z: 0}
   scoreValue: 0
   asteroidType: 0
+  desiredScale: 0
