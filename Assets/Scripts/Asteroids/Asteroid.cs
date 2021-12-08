@@ -25,9 +25,9 @@ namespace Asteroids {
 
         private Rigidbody _asteroidRigidbody;
         [SerializeField]
-        private float desiredScale;
-        private float _time = 0; 
-        private float _currentScale = 0f;
+        private float time; 
+        private float _currentScale;
+        private bool _finishedScaling;
 
 
         // Constructor
@@ -42,16 +42,16 @@ namespace Asteroids {
             if (randNumb < 10) {
                 asteroidType = AsteroidType.A1;
             }
-            else if (randNumb >= 10 && randNumb < 35) {
+            if (randNumb >= 10 && randNumb < 35) {
                 asteroidType = AsteroidType.A2;
             }
-            else if (randNumb >= 35 && randNumb < 75) {
+            if (randNumb >= 35 && randNumb < 75) {
                 asteroidType = AsteroidType.A3;
             }
-            else if (randNumb >= 75 && randNumb < 90) {
+            if (randNumb >= 75 && randNumb < 90) {
                 asteroidType = AsteroidType.A4;
             }
-            else if (randNumb >= 90 && randNumb < 101) {
+            if (randNumb >= 90 && randNumb < 101) {
                 asteroidType = AsteroidType.A5;
             }
             
@@ -114,33 +114,14 @@ namespace Asteroids {
             ClampVelocity(Velocity, _asteroidRigidbody);
             OutOfBoundsCheck(transform.position.x, -20f);
             
-            // Scale on spawn from (0,0,0) to the set scale:
-            _time += Time.deltaTime;
-            var _lerpTime = 1f;
-            
-            if(_time > _lerpTime)
-            {
-                _time = _lerpTime;
-            }
-            
-            // Lerp between 0 and 2:
-            _currentScale = Mathf.Lerp(0, Scale.x, _time/_lerpTime);
-            print("lerp_Time: " + _lerpTime);
-            print("Time: " + _time);
-            print("Scale.x :" + Scale.x);
-            print("current scale: " + _currentScale);
-            // Set currentScale to the localScale:
-            transform.localScale = new Vector3(_currentScale, _currentScale, _currentScale);
-            
-            // if(_time >= _lerpTime)
-            // {
-            //     Destroy(this);
-            // }
+            if(!_finishedScaling)
+                // Scale on spawn from (0,0,0) to the set scale:
+                ScaleOnSpawn(ref time, ref _finishedScaling, 1f, Scale.x);
         }
 
         private static void AddRandomTorque(Rigidbody rigidbody) {
-            const float minRandomTorque = -10; 
-            const float maxRandomTorque = 10;
+            const float minRandomTorque = -50; 
+            const float maxRandomTorque = 50;
             rigidbody.AddRelativeTorque(new Vector3(Random.Range(minRandomTorque, maxRandomTorque), 
                 Random.Range(minRandomTorque, maxRandomTorque), Random.Range(minRandomTorque, 
                     maxRandomTorque)));
@@ -153,6 +134,27 @@ namespace Asteroids {
         private void OutOfBoundsCheck(float xPos, float threshold) {
             if (xPos <= threshold)
                 Destroy(gameObject);
+        }
+        private void ScaleOnSpawn(ref float timeParam, ref bool isFullScale, float lerpTime, float desiredScaleParam) {
+            
+            // Scale on spawn from (0,0,0) to the set scale:
+            timeParam += Time.deltaTime;
+
+            if(timeParam > lerpTime)
+            {
+                this.time = lerpTime;
+            }
+            
+            // Lerp between 0 and 2:
+            _currentScale = Mathf.Lerp(0, desiredScaleParam, time/lerpTime);
+            // Set currentScale to the localScale:
+            transform.localScale = new Vector3(_currentScale, _currentScale, _currentScale);
+
+            // Check if the cube has finished scaling:
+            if (transform.localScale.x > desiredScaleParam) {
+                isFullScale = true;
+                
+            }
         }
     }
 

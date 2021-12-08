@@ -1,6 +1,4 @@
-﻿using System;
-using Asteroids;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class AsteroidSpawner : MonoBehaviour {
