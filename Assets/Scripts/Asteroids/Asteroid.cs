@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Utilities;
 using Random = UnityEngine.Random;
 
 namespace Asteroids {
@@ -111,8 +112,6 @@ namespace Asteroids {
             // Add torque:
             _asteroidRigidbody = GetComponent<Rigidbody>();
             AddRandomTorque(_asteroidRigidbody);
-            
-            print("Asteroid Type:" + asteroidType + " HP :" + CurrentHealth);
         }
 
         private void Update() {
@@ -132,15 +131,18 @@ namespace Asteroids {
                 Random.Range(minRandomTorque, maxRandomTorque), Random.Range(minRandomTorque, 
                     maxRandomTorque)));
         }
+        
         private static void ClampVelocity(float maxVelocity, Rigidbody rigidbody) {
             if (rigidbody.velocity.magnitude > maxVelocity) {
                 rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, maxVelocity);
             }
         }
+        
         private void OutOfBoundsCheck(float xPos, float threshold) {
             if (xPos <= threshold)
                 Destroy(gameObject);
         }
+        
         private void ScaleOnSpawn(ref float timeParam, ref bool isFullScale, float lerpTime, float desiredScaleParam) {
             
             // Scale on spawn from (0,0,0) to the set scale:
@@ -162,15 +164,23 @@ namespace Asteroids {
                 
             }
         }
-        public void DamageEnemy(float damage)
+        
+        public void DamageAsteroid(float damage)
         {
             CurrentHealth -= damage;
             print("Asteroid Type:" + asteroidType + " HP :" + CurrentHealth);
+            
+            // Change color depending on asteroid current HP
+            // Red == High HP, Black == Low HP:
+            gameObject.GetComponent<Renderer>().material.color *= Utility.PercentageFunc(CurrentHealth, TotalHealth);
+            
+            
             if(CurrentHealth <= 0)
             {
                 // Asteroid's HP is 0:
                 Destroy(gameObject);
             }
+            
         }
     }
 

@@ -15,7 +15,7 @@ namespace Player {
             var enemy = other.GetComponent<Asteroid>();
             if (enemy != null)
             {
-                enemy.DamageEnemy(m_damage);
+                enemy.DamageAsteroid(m_damage);
                 Destroy(gameObject);
             }
         }
