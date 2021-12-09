@@ -10,45 +10,52 @@ public class NewScript : MonoBehaviour {
         
         // Define Student List:
         IList<Student> studentList = new List<Student>() { 
-            new Student() { StudentID = 1, StudentName = "John", Age = 18 } ,
-            new Student() { StudentID = 2, StudentName = "Steve",  Age = 21 } ,
-            new Student() { StudentID = 3, StudentName = "Bill",  Age = 18 } ,
-            new Student() { StudentID = 4, StudentName = "Ram" , Age = 20 } ,
-            new Student() { StudentID = 5, StudentName = "Abram" , Age = 21 } 
+            new Student() { StudentID = 1, StudentName = "John", StandardID =1 },
+            new Student() { StudentID = 2, StudentName = "Moin", StandardID =1 },
+            new Student() { StudentID = 3, StudentName = "Bill", StandardID =2 },
+            new Student() { StudentID = 4, StudentName = "Ram" , StandardID =2 },
+            new Student() { StudentID = 5, StudentName = "Ron"  } 
         };
 
-
-        // GroupBy Query in Query Syntax [group by age]:
-        var groupByQuery = from s in studentList
-            group s by s.Age;
+        // Define Standard List:
+        IList<Standard> standardList = new List<Standard>() { 
+            new Standard(){ StandardID = 1, StandardName="Standard 1"},
+            new Standard(){ StandardID = 2, StandardName="Standard 2"},
+            new Standard(){ StandardID = 3, StandardName="Standard 3"}
+        };
         
-        // Iterate through each group:
-        foreach (var ageGroup in groupByQuery) {
-            Debug.Log("Age Group Key:" + ageGroup.Key); // Each group has a key
+        // Join Query in C#:
+        var innerJoin = studentList.Join( // outer sequence
+            standardList, // inner sequence
+            student => student.StandardID, // outer key
+            standard => standard.StandardID, // inner key
+            (student, standard) => new { // projection result
+                StudentName = student.StudentName,
+                StandardName = standard.StandardName
+            });
 
-            foreach (var s in ageGroup) {
-                Debug.Log("Student Name: " + s.StudentName);
-            }
+        foreach (var s in innerJoin) {
+            Debug.Log("Student Name: " + s.StudentName + " Standard ID: " + s.StandardName);
         }
     }
-
-    class Student
-    {
+    
+    public class Student{ 
         public int StudentID { get; set; }
-        public String StudentName { get; set; }
-        public int Age { get; set; }
+        public string StudentName { get; set; }
+        public int StandardID { get; set; }
+    }
+
+    public class Standard{ 
+        public int StandardID { get; set; }
+        public string StandardName { get; set; }
     }
     
     /*
-    * This code produces the following results:
-    * AgeGroup: 18
-     * StudentName: John
-     * StudentName: Bill
-    * Age Group 21:
-     * StudentName: Steve
-     * StudentName: Abram
-    * Age Group 20:
-     * Ram
+    * Both Method and Query methods produce the following results:
+    * Student Name: John, Standard ID: 1
+    * Student Name: Moin, Standard ID: 1
+    * Student Name: Bill, Standard ID: 2
+    * Student Name: Ram, Standard ID: 2
     */
 }
 

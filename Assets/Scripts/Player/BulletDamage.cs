@@ -1,18 +1,18 @@
 ﻿// Rory Clark - https://rory.games - 2019
 
-using Enemy;
+using Asteroids;
 using UnityEngine;
 
 namespace Player {
     public class BulletDamage : MonoBehaviour
     {
         [SerializeField]
-        float m_damage = 10f;
+        float m_damage;
 
         private void OnTriggerEnter(Collider other)
         {
             // Damage the enemy if we hit one, destroy ourselves
-            EnemyHealth enemy = other.GetComponent<EnemyHealth>();
+            var enemy = other.GetComponent<Asteroid>();
             if (enemy != null)
             {
                 enemy.DamageEnemy(m_damage);

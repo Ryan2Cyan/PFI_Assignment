@@ -5,14 +5,13 @@ using Random = UnityEngine.Random;
 namespace Asteroids {
     public class Asteroid : MonoBehaviour{
 
-        [SerializeField] private float health;
-        public float Health => health;
+        private float CurrentHealth { get; set; }
+        
+        [SerializeField] private float totalHealth;
+        public float TotalHealth => totalHealth;
         
         [SerializeField] private float velocity;
         public float Velocity => velocity;
-        
-        [SerializeField] private float spawnRate;
-        public float SpawnRate => spawnRate;
 
         [SerializeField] private Vector3 scale;
         public Vector3 Scale => scale;
@@ -36,22 +35,27 @@ namespace Asteroids {
         }
         
         private void Awake() {
+            const int a1SpawnRate = 10,
+                a2SpawnRate = 35,
+                a3SpawnRate = 75,
+                a4SpawnRate = 90,
+                a5SpawnRate = 101;
             
             // Assign asteroid type according to spawn rate:
             var randNumb = Random.Range(0, 100);
-            if (randNumb < 10) {
+            if (randNumb < a1SpawnRate) {
                 asteroidType = AsteroidType.A1;
             }
-            if (randNumb >= 10 && randNumb < 35) {
+            else if (randNumb < a2SpawnRate) {
                 asteroidType = AsteroidType.A2;
             }
-            if (randNumb >= 35 && randNumb < 75) {
+            else if (randNumb < a3SpawnRate) {
                 asteroidType = AsteroidType.A3;
             }
-            if (randNumb >= 75 && randNumb < 90) {
+            else if (randNumb < a4SpawnRate) {
                 asteroidType = AsteroidType.A4;
             }
-            if (randNumb >= 90 && randNumb < 101) {
+            else if (randNumb < a5SpawnRate) {
                 asteroidType = AsteroidType.A5;
             }
             
@@ -59,42 +63,42 @@ namespace Asteroids {
             switch (asteroidType) {
                 case AsteroidType.A1:
                     asteroidType = AsteroidType.A1;
-                    health = 2f;
-                    velocity = 35f;
-                    spawnRate = 20f;
+                    totalHealth = 1f;
+                    CurrentHealth = 1f;
+                    velocity = 25f;
                     scale = new Vector3(1f, 1f, 1f);
                     scoreValue = 50;
                     break;
                 case AsteroidType.A2:
                     asteroidType = AsteroidType.A2;
-                    health = 6f;
-                    velocity = 30f;
-                    spawnRate = 25f;
+                    totalHealth = 2f;
+                    CurrentHealth = 2f;
+                    velocity = 20f;
                     scale = new Vector3(1.5f, 1.5f, 1.5f);
                     scoreValue = 30;
                     break;
                 case AsteroidType.A3:
                     asteroidType = AsteroidType.A3;
-                    health = 10f;
-                    velocity = 25f;
-                    spawnRate = 30f;
+                    totalHealth = 2f;
+                    CurrentHealth = 2f;
+                    velocity = 15f;
                     scale = new Vector3(2f, 2f, 2f);
                     scoreValue = 30;
                     break;
                 case AsteroidType.A4:
                     asteroidType = AsteroidType.A4;
-                    health = 15f;
-                    velocity = 20f;
-                    spawnRate = 15f;
+                    totalHealth = 4f;
+                    CurrentHealth = 4f;
+                    velocity = 10f;
                     scale = new Vector3(2.5f, 2.5f, 2.5f);
                     scoreValue = 40;
                     break;
                 case AsteroidType.A5:
                     asteroidType = AsteroidType.A5;
-                    health = 20f;
-                    velocity = 5f;
-                    spawnRate = 10f;
-                    scale = new Vector3(3f, 3f, 3f);
+                    totalHealth = 6f;
+                    CurrentHealth = 6f;
+                    velocity = 2f;
+                    scale = new Vector3(8f, 8f, 8f);
                     scoreValue = 50;
                     break;
                 default:
@@ -107,6 +111,8 @@ namespace Asteroids {
             // Add torque:
             _asteroidRigidbody = GetComponent<Rigidbody>();
             AddRandomTorque(_asteroidRigidbody);
+            
+            print("Asteroid Type:" + asteroidType + " HP :" + CurrentHealth);
         }
 
         private void Update() {
@@ -154,6 +160,16 @@ namespace Asteroids {
             if (transform.localScale.x > desiredScaleParam) {
                 isFullScale = true;
                 
+            }
+        }
+        public void DamageEnemy(float damage)
+        {
+            CurrentHealth -= damage;
+            print("Asteroid Type:" + asteroidType + " HP :" + CurrentHealth);
+            if(CurrentHealth <= 0)
+            {
+                // Asteroid's HP is 0:
+                Destroy(gameObject);
             }
         }
     }
