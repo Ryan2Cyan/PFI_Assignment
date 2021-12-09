@@ -28,6 +28,7 @@ namespace Asteroids {
         private float time; 
         private float _currentScale;
         private bool _finishedScaling;
+        private GameObject _explosionPrefab;
 
 
         // Constructor
@@ -112,6 +113,9 @@ namespace Asteroids {
             // Add torque:
             _asteroidRigidbody = GetComponent<Rigidbody>();
             AddRandomTorque(_asteroidRigidbody);
+            
+            _explosionPrefab = Resources.Load<GameObject>("Prefabs/ParticleFX/Explosion");
+            print(_explosionPrefab);
         }
 
         private void Update() {
@@ -178,9 +182,17 @@ namespace Asteroids {
             if(CurrentHealth <= 0)
             {
                 // Asteroid's HP is 0:
+                SpawnExplosion();
                 Destroy(gameObject);
             }
             
+        }
+        
+        private void SpawnExplosion() {
+            var explosion = Instantiate(_explosionPrefab);
+            explosion.transform.localPosition = transform.position;
+            explosion.transform.localScale = Scale / 2;
+            print("Explosion Scale: " + explosion.transform.localScale);
         }
     }
 
