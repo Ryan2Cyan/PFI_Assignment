@@ -172,7 +172,6 @@ namespace Asteroids {
         public void DamageAsteroid(float damage)
         {
             CurrentHealth -= damage;
-            print("Asteroid Type:" + asteroidType + " HP :" + CurrentHealth);
             
             // Change color depending on asteroid current HP
             // Red == High HP, Black == Low HP:
