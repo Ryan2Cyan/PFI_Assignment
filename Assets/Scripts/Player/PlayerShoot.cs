@@ -1,46 +1,53 @@
 ﻿// Rory Clark - https://rory.games - 2019
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player {
     public class PlayerShoot : MonoBehaviour
     {
-
-        [SerializeField]
-        GameObject m_bulletPrefab = null;
-
-        [SerializeField]
-        Transform m_spawnPosition = null;
-
-        [SerializeField]
-        KeyCode m_fireKey = KeyCode.Space;
-
-        [SerializeField]
-        float m_fireRate = 0.25f;
-        float m_currentFireTimer = 0f;
-
-        void Update()
-        {
-            // if (m_currentFireTimer > 0)
-            // {
-            //     m_currentFireTimer -= Time.deltaTime;
-            // }
-            //
-            // // GetKeyDown and GetKey will happen at different times
-            // // GetKeyDown will happen as soon as the user presses the key
-            // // GetKey will work when it is held
-            // if ((Input.GetKeyDown(m_fireKey) || Input.GetKey(m_fireKey)) && m_currentFireTimer <= 0)
-            // {
-            //     m_currentFireTimer = m_fireRate;
-            //     SpawnBullet();
-            // }
+        // Objects for firing bullet:
+        private PFI_SpaceInvaders_Controller _controlsScript;
+        private static GameObject BulletPrefab => Resources.Load<GameObject>("Prefabs/Bullet");
+        private const float FireRate = 0.2f;
+        private float _currentFireTimer;
+        private Vector3 _bulletSpawnPos;
+        
+        private void Awake() {
+            
+            _controlsScript = new PFI_SpaceInvaders_Controller();
+            // Link up data from controller to a variable (Movement):
+            _controlsScript.Player.Fire.performed += Fire;
+        }
+        
+        private void Update() {
+            
+            // Set bullet spawn:
+            _bulletSpawnPos = new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z);
+            // Decrement firing timer:
+            _currentFireTimer -= Time.deltaTime;
+        }
+        
+        private void OnEnable() {
+            _controlsScript.Player.Enable();
         }
 
-        void SpawnBullet()
-        {
-            GameObject go = Instantiate(m_bulletPrefab);
-            go.transform.position = m_spawnPosition.position;
+        private void OnDisable() {
+            _controlsScript.Player.Disable();
         }
-   
+
+        // Fires bullet on player input:
+        private void Fire(InputAction.CallbackContext context) {
+
+            // Execute when input is received:
+            if (!(_currentFireTimer <= 0f)) return;
+            _currentFireTimer = FireRate;
+            SpawnBullet();
+        }
+
+        private void SpawnBullet() {
+            var newBullet = Instantiate(BulletPrefab);
+            newBullet.transform.position = _bulletSpawnPos;
+        }
     }
 }

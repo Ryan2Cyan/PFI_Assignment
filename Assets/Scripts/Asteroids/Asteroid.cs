@@ -175,22 +175,19 @@ namespace Asteroids {
             // Change color depending on asteroid current HP
             // Red == High HP, Black == Low HP:
             gameObject.GetComponent<Renderer>().material.color *= Utility.PercentageFunc(CurrentHealth, TotalHealth);
-            
-            
-            if(CurrentHealth <= 0)
-            {
-                // Asteroid's HP is 0:
-                SpawnExplosion();
-                Destroy(gameObject);
-            }
-            
+
+
+            if (!(CurrentHealth <= 0)) return;
+            // Asteroid's HP is 0:
+            SpawnExplosion();
+            Destroy(gameObject);
+
         }
         
         private void SpawnExplosion() {
             var explosion = Instantiate(_explosionPrefab);
             explosion.transform.localPosition = transform.position;
             explosion.transform.localScale = Scale / 2;
-            print("Explosion Scale: " + explosion.transform.localScale);
         }
     }
 

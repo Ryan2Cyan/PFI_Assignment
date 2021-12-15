@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28974912f30d82b44bcb2e32db57486a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  totalHealth: 0
   velocity: 0
   scale: {x: 0, y: 0, z: 0}
   scoreValue: 0
