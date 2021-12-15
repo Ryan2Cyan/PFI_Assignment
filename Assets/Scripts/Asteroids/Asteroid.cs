@@ -115,7 +115,6 @@ namespace Asteroids {
             AddRandomTorque(_asteroidRigidbody);
             
             _explosionPrefab = Resources.Load<GameObject>("Prefabs/ParticleFX/Explosion");
-            print(_explosionPrefab);
         }
 
         private void Update() {
