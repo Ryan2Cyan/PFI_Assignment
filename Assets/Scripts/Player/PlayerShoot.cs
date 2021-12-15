@@ -21,14 +21,14 @@ namespace Player {
 
         void Update()
         {
-            if (m_currentFireTimer > 0)
-            {
-                m_currentFireTimer -= Time.deltaTime;
-            }
-
-            // GetKeyDown and GetKey will happen at different times
-            // GetKeyDown will happen as soon as the user presses the key
-            // GetKey will work when it is held
+            // if (m_currentFireTimer > 0)
+            // {
+            //     m_currentFireTimer -= Time.deltaTime;
+            // }
+            //
+            // // GetKeyDown and GetKey will happen at different times
+            // // GetKeyDown will happen as soon as the user presses the key
+            // // GetKey will work when it is held
             // if ((Input.GetKeyDown(m_fireKey) || Input.GetKey(m_fireKey)) && m_currentFireTimer <= 0)
             // {
             //     m_currentFireTimer = m_fireRate;
