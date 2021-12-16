@@ -23,6 +23,7 @@ namespace Player {
         private Gamepad _controller;
         private Transform _transform;
         private Rigidbody _rigidbody;
+        private const float GyroShipRotMod = 5f;
 
 
         private void Awake() {
@@ -42,6 +43,7 @@ namespace Player {
             
             // Gyro Movement:
             // Check overridden control layer is initialised:
+            var gyroZData = DS4.ProcessRawData(DS4.gyroZ.ReadValue());
             if (_controller == null) {
                 try {
                     _controller = DS4.GetController();
@@ -52,8 +54,7 @@ namespace Player {
             }
             else {
                 // Get data from gyro:
-                var gyroZData = DS4.ProcessRawData(DS4.gyroZ.ReadValue());
-                _transform.position += (new Vector3(0f, 0f, -gyroZData * MovementRate * Time.deltaTime));
+                _transform.position += new Vector3(0f, 0f, -gyroZData * MovementRate * Time.deltaTime);
             }
             
             // Calculate new movement and apply it to player rigidbody component:
@@ -61,6 +62,7 @@ namespace Player {
             
             // Rotate player based on movement:
             transform.Rotate(Vector3.up * (_moveData.x * 50f * Time.deltaTime));
+            transform.Rotate(Vector3.up * (gyroZData * 1000f * GyroShipRotMod * Time.deltaTime));
             
             // If player stops moving - return to original rotation:
             if (_moveData != Vector2.zero) return;

@@ -1,5 +1,5 @@
 ﻿// Code by SG4YK: 
-// https://blog.sg4yk.com/dual_shock_motion_in_unity_en.html
+// https://blog.sg4yk.com/dual_shock_motion_in_unity_en.html - 2020
 
 using System;
 using UnityEngine;
