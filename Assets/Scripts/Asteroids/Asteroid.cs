@@ -1,11 +1,15 @@
 ﻿using System;
 using UnityEngine;
 using Utilities;
+using FMOD.Studio;
+using FMODUnity;
+using FMOD;
 using Random = UnityEngine.Random;
 
 namespace Asteroids {
-    public class Asteroid : MonoBehaviour{
+    public class Asteroid : MonoBehaviour {
 
+        private FMOD.Studio.EventInstance _asteroidDestroyed;
         private float CurrentHealth { get; set; }
         
         [SerializeField] private float totalHealth;
@@ -37,6 +41,7 @@ namespace Asteroids {
         }
         
         private void Awake() {
+
             const int a1SpawnRate = 10,
                 a2SpawnRate = 35,
                 a3SpawnRate = 75,
@@ -181,7 +186,6 @@ namespace Asteroids {
             // Asteroid's HP is 0:
             SpawnExplosion();
             Destroy(gameObject);
-
         }
         
         private void SpawnExplosion() {

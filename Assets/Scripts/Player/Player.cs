@@ -29,7 +29,10 @@ namespace Player {
         private void Awake() {
             
             _controlsScript = new PFI_SpaceInvaders_Controller();
-            _controller = DS4.GetController();
+            if (Gamepad.current != null) {
+                _controller = DS4.GetController();
+            }
+
             _transform = transform;
             _rigidbody = GetComponent<Rigidbody>();
             
@@ -43,27 +46,29 @@ namespace Player {
             
             // Gyro Movement:
             // Check overridden control layer is initialised:
-            var gyroZData = DS4.ProcessRawData(DS4.gyroZ.ReadValue());
-            if (_controller == null) {
-                try {
-                    _controller = DS4.GetController();
+            if (_controller != null) {
+                var gyroZData = DS4.ProcessRawData(DS4.gyroZ.ReadValue());
+                if (_controller == null) {
+                    try {
+                        _controller = DS4.GetController();
+                    }
+                    catch (Exception e) {
+                        Console.WriteLine(e);
+                    }
                 }
-                catch (Exception e) {
-                    Console.WriteLine(e);
+                else {
+                    // Get data from gyro:
+                    _transform.position += new Vector3(0f, 0f, -gyroZData * MovementRate * Time.deltaTime);
                 }
+                transform.Rotate(Vector3.up * (gyroZData * 1000f * GyroShipRotMod * Time.deltaTime));
             }
-            else {
-                // Get data from gyro:
-                _transform.position += new Vector3(0f, 0f, -gyroZData * MovementRate * Time.deltaTime);
-            }
-            
+
             // Calculate new movement and apply it to player rigidbody component:
             _rigidbody.AddForce(new Vector3(0f, 0f, -_moveData.x * MovementRate * Time.deltaTime));
             
             // Rotate player based on movement:
             transform.Rotate(Vector3.up * (_moveData.x * 50f * Time.deltaTime));
-            transform.Rotate(Vector3.up * (gyroZData * 1000f * GyroShipRotMod * Time.deltaTime));
-            
+
             // If player stops moving - return to original rotation:
             if (_moveData != Vector2.zero) return;
             var rotation = transform.rotation;
