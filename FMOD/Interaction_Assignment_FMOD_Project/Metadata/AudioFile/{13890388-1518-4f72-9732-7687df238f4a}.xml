@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{13890388-1518-4f72-9732-7687df238f4a}">
+		<property name="assetPath">
+			<value>Laser_Reload.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>1.2614058956916099</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{cbb49508-7b81-4a5a-a777-edd5bec41237}</destination>
+		</relationship>
+	</object>
+</objects>

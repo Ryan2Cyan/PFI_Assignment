@@ -1,15 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using Utilities;
-using FMOD.Studio;
-using FMODUnity;
-using FMOD;
 using Random = UnityEngine.Random;
 
 namespace Asteroids {
     public class Asteroid : MonoBehaviour {
 
-        private FMOD.Studio.EventInstance _asteroidDestroyed;
         private float CurrentHealth { get; set; }
         
         [SerializeField] private float totalHealth;
@@ -133,6 +129,7 @@ namespace Asteroids {
         }
 
         private static void AddRandomTorque(Rigidbody rigidbody) {
+            
             const float minRandomTorque = -50; 
             const float maxRandomTorque = 50;
             rigidbody.AddRelativeTorque(new Vector3(Random.Range(minRandomTorque, maxRandomTorque), 
@@ -141,6 +138,7 @@ namespace Asteroids {
         }
         
         private static void ClampVelocity(float maxVelocity, Rigidbody rigidbody) {
+            
             if (rigidbody.velocity.magnitude > maxVelocity) {
                 rigidbody.velocity = Vector3.ClampMagnitude(rigidbody.velocity, maxVelocity);
             }

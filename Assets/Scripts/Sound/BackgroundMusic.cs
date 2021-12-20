@@ -11,11 +11,5 @@ namespace Sound {
             _backingTrack.start();
             _backingTrack.release();
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
     }
 }

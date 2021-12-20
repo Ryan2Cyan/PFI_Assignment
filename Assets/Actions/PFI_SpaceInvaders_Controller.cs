@@ -33,6 +33,14 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Change_Firing_Mode"",
+                    ""type"": ""Button"",
+                    ""id"": ""a42c3845-901d-455e-b56f-42d909a62efe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -165,6 +173,39 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""227cf8dd-51fa-4523-8a5b-ad9fb2943417"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""daa5ddf6-307c-4317-8d63-fe7a1f77fd52"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Change_Firing_Mode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ff0aecf-0854-4cfb-b42f-583ef052ea9b"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Change_Firing_Mode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -744,6 +785,7 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
+        m_Player_Change_Firing_Mode = m_Player.FindAction("Change_Firing_Mode", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -807,12 +849,14 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Fire;
+    private readonly InputAction m_Player_Change_Firing_Mode;
     public struct PlayerActions
     {
         private @PFI_SpaceInvaders_Controller m_Wrapper;
         public PlayerActions(@PFI_SpaceInvaders_Controller wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
+        public InputAction @Change_Firing_Mode => m_Wrapper.m_Player_Change_Firing_Mode;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -828,6 +872,9 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
                 @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
+                @Change_Firing_Mode.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChange_Firing_Mode;
+                @Change_Firing_Mode.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChange_Firing_Mode;
+                @Change_Firing_Mode.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnChange_Firing_Mode;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -838,6 +885,9 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
+                @Change_Firing_Mode.started += instance.OnChange_Firing_Mode;
+                @Change_Firing_Mode.performed += instance.OnChange_Firing_Mode;
+                @Change_Firing_Mode.canceled += instance.OnChange_Firing_Mode;
             }
         }
     }
@@ -996,6 +1046,7 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+        void OnChange_Firing_Mode(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

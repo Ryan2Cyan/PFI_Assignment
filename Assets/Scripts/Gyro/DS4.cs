@@ -51,14 +51,6 @@ namespace Gyro {
         
         // Convert data from gyro:
         public static float ProcessRawData(float data) {
-            if (data < 1 && data > 0) {
-                if (data > 0.5) {
-                    Debug.Log("Right");
-                }
-                else {
-                    Debug.Log("Left");
-                }
-            }
             return data > 0.5 ? 1 - data : -data;
             
         } 
