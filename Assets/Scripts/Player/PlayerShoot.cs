@@ -18,13 +18,16 @@ namespace Player {
         private float _currentReloadTimer;
         private const float ReloadTime = 1f;
         private Vector3 _bulletSpawnPos;
-
         public GameObject reloadText;
         // SFX:
         private FMOD.Studio.EventInstance _reloadBulletSfx;
         private FiringMode _currentFiringMode;
-        
-        
+        // UI
+        public Animator firingModeUI;
+
+
+
+
         private void Awake() {
             
             _controlsScript = new PFI_SpaceInvaders_Controller();
@@ -87,6 +90,8 @@ namespace Player {
             else {
                 _currentFiringMode = FiringMode.Bullets;
             }
+            // Switch UI:
+            firingModeUI.SetTrigger("Change_Firing_Mode");
         }
         
         // Spawns bullet prefab on player model:
