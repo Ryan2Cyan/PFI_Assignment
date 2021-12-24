@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace Player {
     public class PlayerShoot : MonoBehaviour
@@ -24,6 +25,7 @@ namespace Player {
         private FiringMode _currentFiringMode;
         // UI
         public Animator firingModeUI;
+        public Slider overheatSlider;
 
 
 
@@ -52,15 +54,24 @@ namespace Player {
             _currentFireTimer -= Time.deltaTime;
             
             // Check if the ammo count has reached 0 - if yes, start reload time:
-            if (_currentAmmo != 0) return;
-            _currentReloadTimer += Time.deltaTime;
-            reloadText.SetActive(true);
+            if (_currentAmmo == 0) {
+                
+                _currentReloadTimer += Time.deltaTime;
+                reloadText.SetActive(true);
+                overheatSlider.value = 0;
+                firingModeUI.SetBool("isOverheat", true);
+                
+                if (!(_currentReloadTimer >= ReloadTime)) return;
+                
+                _reloadBulletSfx.start();
+                _currentAmmo = MaxAmmo;
+                _currentReloadTimer = 0f;
+                reloadText.SetActive(false);
+                firingModeUI.SetBool("isOverheat", false);
+            }
             
-            if (!(_currentReloadTimer >= ReloadTime)) return;
-            _reloadBulletSfx.start();
-            _currentAmmo = MaxAmmo;
-            _currentReloadTimer = 0f;
-            reloadText.SetActive(false);
+            // Set overheat to show how many bullets the player has shot:
+            SetOverheat();
         }
         
         private void OnEnable() {
@@ -85,19 +96,25 @@ namespace Player {
         
         // Changes firing mode:
         private void ChangeFiringMode(InputAction.CallbackContext context) {
-            if (_currentFiringMode == FiringMode.Bullets)
+            if (_currentFiringMode == FiringMode.Bullets) {
                 _currentFiringMode = FiringMode.Plasma;
+                firingModeUI.SetBool("isPlasma", true);
+            }
             else {
                 _currentFiringMode = FiringMode.Bullets;
+                firingModeUI.SetBool("isPlasma", false);
             }
-            // Switch UI:
-            firingModeUI.SetTrigger("Change_Firing_Mode");
         }
         
         // Spawns bullet prefab on player model:
         private void SpawnBullet() {
             var newBullet = Instantiate(BulletPrefab);
             newBullet.transform.position = _bulletSpawnPos;
+        }
+        
+        // Set overheat value:
+        private void SetOverheat() {
+            overheatSlider.value = MaxAmmo - _currentAmmo;
         }
 
         private enum FiringMode {
