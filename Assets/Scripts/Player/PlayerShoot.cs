@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace Player {
     public class PlayerShoot : MonoBehaviour
     {
-        // Objects for firing bullet:
+        // Actions:
         private PFI_SpaceInvaders_Controller _controlsScript;
         // Shooting:
         private static GameObject BulletPrefab => Resources.Load<GameObject>("Prefabs/Bullet");
@@ -21,6 +21,9 @@ namespace Player {
         private float _currentReloadTimer;
         private const float ReloadTime = 1f;
         private Vector3 _bulletSpawnPos;
+        // Abilities:
+        public Animator ability1UI;
+        private static readonly int IsActive = Animator.StringToHash("isActive");
         // SFX:
         private FMOD.Studio.EventInstance _reloadBulletSfx;
         private FMOD.Studio.EventInstance _reloadPlasmaSfx;
@@ -30,6 +33,7 @@ namespace Player {
         public Slider overheatSlider;
         private static readonly int IsOverheat = Animator.StringToHash("isOverheat");
         private static readonly int IsPlasma = Animator.StringToHash("isPlasma");
+        
 
 
         private void Awake() {
@@ -41,6 +45,7 @@ namespace Player {
             // Link up data from controller to a variable (Movement):
             _controlsScript.Player.Fire.performed += Fire;
             _controlsScript.Player.Change_Firing_Mode.performed += ChangeFiringMode;
+            _controlsScript.Player.Ability_1.performed += Ability1;
             
             // Set how much ammo the player will have:
             _currentAmmo = MaxAmmo;
@@ -72,7 +77,7 @@ namespace Player {
         private void OnDisable() {
             _controlsScript.Player.Disable();
         }
-
+       
         // Fires bullet on player input:
         private void Fire(InputAction.CallbackContext context) {
             
@@ -114,6 +119,12 @@ namespace Player {
             
         }
         
+        // Activate Ability 1 (Temporary Speed Boost):
+        private void Ability1(InputAction.CallbackContext context) {
+            Debug.Log("Ability 1");
+            ability1UI.SetBool(IsActive,true);
+        }
+
         // Reloads the ammo according to a reload time:
         private void Reload() {
             

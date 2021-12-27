@@ -6,10 +6,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Player {
-    public class Player : MonoBehaviour
+    public class PlayerMovement : MonoBehaviour
     {
         // Objects for movement:
-        private const float MovementRate = 700f;
+        private const float MovementRate = 700;
         private PFI_SpaceInvaders_Controller _controlsScript;
         private static Quaternion OriginalRot => Quaternion.Euler(
             55,
