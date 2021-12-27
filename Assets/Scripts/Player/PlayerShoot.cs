@@ -23,6 +23,9 @@ namespace Player {
         private Vector3 _bulletSpawnPos;
         // Abilities:
         public Animator ability1UI;
+        public GameObject ability1InputUI;
+        public Sprite circleInput;
+        public Sprite qInput;
         private static readonly int IsActive = Animator.StringToHash("isActive");
         // SFX:
         private FMOD.Studio.EventInstance _reloadBulletSfx;
@@ -68,6 +71,9 @@ namespace Player {
             
             // Set overheat to show how many bullets the player has shot:
             SetOverheat();
+
+            // ChangeInputUI();
+
         }
         
         private void OnEnable() {
@@ -108,7 +114,7 @@ namespace Player {
             if (_currentFiringMode == FiringMode.Bullets) {
                 _currentFiringMode = FiringMode.Plasma;
                 firingModeUI.SetBool(IsPlasma, true);
-                _fireRate = 0.4f;
+                _fireRate = 0.6f;
             }
             // Change to Bullets:
             else {
@@ -162,6 +168,11 @@ namespace Player {
         private void SetOverheat() {
             overheatSlider.value = MaxAmmo - _currentAmmo;
         }
+        
+        // Change input UI based on the current input device used:
+        // private void ChangeInputUI() {
+        //     ability1InputUI.GetComponent<Image>().sprite = Gamepad.current.IsActuated() ? circleInput : qInput;
+        // }
 
         private enum FiringMode {
             Bullets, Plasma
