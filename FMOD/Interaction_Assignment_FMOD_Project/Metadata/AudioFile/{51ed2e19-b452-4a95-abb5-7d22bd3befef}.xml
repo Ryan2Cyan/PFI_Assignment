@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{51ed2e19-b452-4a95-abb5-7d22bd3befef}">
+		<property name="assetPath">
+			<value>Plasma_Shoot.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>0.45732426303854873</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{cbb49508-7b81-4a5a-a777-edd5bec41237}</destination>
+		</relationship>
+	</object>
+</objects>
