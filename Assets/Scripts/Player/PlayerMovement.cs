@@ -2,6 +2,7 @@
 
 using System;
 using Gyro;
+using Sound;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,7 +10,9 @@ namespace Player {
     public class PlayerMovement : MonoBehaviour
     {
         // Objects for movement:
-        private const float MovementRate = 700;
+        private static float _currentMovementRate;
+        private const float BuffedMovementRate = 1500;
+        private const float DefaultMovementRate = 700;
         private PFI_SpaceInvaders_Controller _controlsScript;
         private static Quaternion OriginalRot => Quaternion.Euler(
             55,
@@ -28,6 +31,10 @@ namespace Player {
 
         private void Awake() {
             
+            // Set movement speed:
+            _currentMovementRate = DefaultMovementRate;
+            
+            // Get ps4 controls:
             _controlsScript = new PFI_SpaceInvaders_Controller();
             if (Gamepad.current != null) {
                 _controller = DS4.GetController();
@@ -58,13 +65,13 @@ namespace Player {
                 }
                 else {
                     // Get data from gyro:
-                    _transform.position += new Vector3(0f, 0f, -gyroZData * MovementRate * Time.deltaTime);
+                    _transform.position += new Vector3(0f, 0f, -gyroZData * _currentMovementRate * Time.deltaTime);
                 }
                 transform.Rotate(Vector3.up * (gyroZData * 1000f * GyroShipRotMod * Time.deltaTime));
             }
 
             // Calculate new movement and apply it to player rigidbody component:
-            _rigidbody.AddForce(new Vector3(0f, 0f, -_moveData.x * MovementRate * Time.deltaTime));
+            _rigidbody.AddForce(new Vector3(0f, 0f, -_moveData.x * _currentMovementRate * Time.deltaTime));
             
             // Rotate player based on movement:
             transform.Rotate(Vector3.up * (_moveData.x * 50f * Time.deltaTime));
@@ -88,6 +95,14 @@ namespace Player {
 
         private void OnDisable() {
             _controlsScript.Player.Disable();
+        }
+
+        public static void MovementSpeedBuff() {
+            _currentMovementRate = BuffedMovementRate;
+        }
+
+        public static void ResetMovementSpeed() {
+            _currentMovementRate = DefaultMovementRate;
         }
     }
 }

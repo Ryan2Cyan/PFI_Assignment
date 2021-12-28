@@ -1,6 +1,7 @@
 ﻿// Rory Clark - https://rory.games - 2019
 
 using System;
+using Player.UI;
 using Sound;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,7 +14,9 @@ namespace Player {
         // Shooting:
         private static GameObject BulletPrefab => Resources.Load<GameObject>("Prefabs/Bullet");
         private static GameObject PlasmaPrefab => Resources.Load<GameObject>("Prefabs/Plasma");
-        private float _fireRate = 0.2f;
+        private float _currentFireRate;
+        private const float BulletFireRate = 0.2f;
+        private const float PlasmaFireRate = 0.6f;
         private float _currentFireTimer;
         // Reloading
         private const int MaxAmmo = 12;
@@ -21,9 +24,12 @@ namespace Player {
         private float _currentReloadTimer;
         private const float ReloadTime = 1f;
         private Vector3 _bulletSpawnPos;
-        // Abilities:
-        public Animator ability1UI;
-        private static readonly int IsActive = Animator.StringToHash("isActive");
+        // Ability 1:
+        private float _currentAbility1Timer;
+        private const float Ability1Cooldown = 10f;
+        private const float AbilityActivationTime = 5f;
+        private bool _ability1Active;
+        public GameObject shipThrusterBig;
         // Current Firing Mode:
         private FiringMode _currentFiringMode;
 
@@ -32,6 +38,9 @@ namespace Player {
         private void Awake() {
             
             _controlsScript = new PFI_SpaceInvaders_Controller();
+            _ability1Active = false;
+            shipThrusterBig.SetActive(false);
+
             // Link up data from controller to a variable (Movement):
             _controlsScript.Player.Fire.performed += Fire;
             _controlsScript.Player.Change_Firing_Mode.performed += ChangeFiringMode;
@@ -57,7 +66,9 @@ namespace Player {
             
             // Set overheat to show how many bullets the player has shot:
             FiringModeUI.SetOverheatSlider(MaxAmmo - _currentAmmo);
-
+            
+            // Ability Timers:
+            Ability1Timer();
         }
 
         private void OnEnable() {
@@ -88,7 +99,7 @@ namespace Player {
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            _currentFireTimer = _fireRate;
+            _currentFireTimer = _currentFireRate;
         }
         
         // Changes firing mode:
@@ -98,13 +109,13 @@ namespace Player {
             if (_currentFiringMode == FiringMode.Bullets) {
                 _currentFiringMode = FiringMode.Plasma;
                 FiringModeUI.IsPlasmaActive(true);
-                _fireRate = 0.6f;
+                _currentFireRate = PlasmaFireRate;
             }
             // Change to Bullets:
             else {
                 _currentFiringMode = FiringMode.Bullets;
                 FiringModeUI.IsPlasmaActive(false);
-                _fireRate = 0.2f;
+                _currentFireRate = BulletFireRate;
             }
         }
         
@@ -141,16 +152,43 @@ namespace Player {
             newBullet.transform.position = _bulletSpawnPos;
         }
         
+        
+        
         // Activate Ability 1 (Temporary Speed Boost):
-        private void Ability1(InputAction.CallbackContext context) {
-            Debug.Log("Ability 1");
-            ability1UI.SetBool(IsActive,true);
+        private void Ability1Timer() {
+            
+            // Cooldown for ability 1:
+            _currentAbility1Timer += Time.deltaTime;
+            Ability1UI.SetCooldownSlider(_currentAbility1Timer);
+            if (_currentAbility1Timer >= Ability1Cooldown) {
+                Ability1UI.AbilityActive(true);
+            }
+            
+            // Ability 1 Reset:
+            if (_currentAbility1Timer >= AbilityActivationTime) {
+                PlayerMovement.ResetMovementSpeed();
+                if (_ability1Active) {
+                    SoundEffects.PlaySfx(SoundEffects.SoundEffectID.Ability1End);
+                    _ability1Active = false;
+                    shipThrusterBig.SetActive(false);
+                    _currentFireRate *= 2f;
+                }
+            }
         }
         
-        // Change input UI based on the current input device used:
-        // private void ChangeInputUI() {
-        //     ability1InputUI.GetComponent<Image>().sprite = Gamepad.current.IsActuated() ? circleInput : qInput;
-        // }
+        private void Ability1(InputAction.CallbackContext context) {
+            
+            if (!(_currentAbility1Timer >= Ability1Cooldown)) return;
+            
+            PlayerMovement.MovementSpeedBuff();
+            Ability1UI.AbilityActive(false);
+            SoundEffects.PlaySfx(SoundEffects.SoundEffectID.Ability1Start);
+            _currentAbility1Timer = 0f;
+            _ability1Active = true;
+            shipThrusterBig.SetActive(true);
+            _currentFireRate /= 2f;
+        }
+        
 
         private enum FiringMode {
             Bullets, Plasma
