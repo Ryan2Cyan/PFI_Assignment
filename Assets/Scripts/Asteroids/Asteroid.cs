@@ -30,8 +30,7 @@ namespace Asteroids {
         private float _currentScale;
         private bool _finishedScaling;
         private GameObject _explosionPrefab;
-        
-
+        private GameObject _explosionPrefab2;
 
         // Constructor
         public Asteroid(AsteroidType asteroidTypeParam) {
@@ -118,6 +117,7 @@ namespace Asteroids {
             AddRandomTorque(_asteroidRigidbody);
             
             _explosionPrefab = Resources.Load<GameObject>("Prefabs/ParticleFX/Explosion");
+            _explosionPrefab2 = Resources.Load<GameObject>("Prefabs/ParticleFX/Explosion_2");
         }
 
         private void Update() {
@@ -184,15 +184,36 @@ namespace Asteroids {
 
             if (!(CurrentHealth <= 0)) return;
             // Asteroid's HP is 0:
-            SpawnExplosion();
+            // If large asteroid - apply screen shake and sleep:
+            if (AsteroidType == AsteroidType.A5) {
+                if (!(UnityEngine.Camera.main is null))
+                    UnityEngine.Camera.main.GetComponent<CameraShake>().StartShake(0.2f, 0.6f);
+                Utility.ActivateSleep(0.015f);  
+                SpawnExplosion(_explosionPrefab2);
+            }
+            else {
+                if (Random.Range(0, 100) > 90) {
+                    Utility.ActivateSleep(0.015f);  
+                    SpawnExplosion(_explosionPrefab2);
+                }
+                else {
+                    Utility.ActivateSleep(0.005f);  
+                    SpawnExplosion(_explosionPrefab);    
+                }
+                
+            }
             Destroy(gameObject);
         }
         
-        private void SpawnExplosion() {
-            var explosion = Instantiate(_explosionPrefab);
-            
+        private void SpawnExplosion(GameObject prefab) {
+            var explosion = Instantiate(prefab);
             explosion.transform.localPosition = transform.position;
             explosion.transform.localScale = Scale / 2;
+        }
+
+        private void OnDestroy() {
+            // if (!(UnityEngine.Camera.main is null))
+            //     UnityEngine.Camera.main.GetComponent<CameraShake>().StartShake(0.1f, 0.2f);
         }
     }
 

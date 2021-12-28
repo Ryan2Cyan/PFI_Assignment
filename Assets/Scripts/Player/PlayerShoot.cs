@@ -18,11 +18,11 @@ namespace Player {
         private static GameObject BulletPrefab => Resources.Load<GameObject>("Prefabs/Bullet");
         private static GameObject PlasmaPrefab => Resources.Load<GameObject>("Prefabs/Plasma");
         private float _currentFireRate;
-        private const float BulletFireRate = 0.1f;
-        private const float PlasmaFireRate = 0.3f;
+        private const float BulletFireRate = 0.05f;
+        private const float PlasmaFireRate = 0.15f;
         private float _currentFireTimer;
         // Reloading
-        private static readonly int _maxAmmo = 30;
+        private static readonly int _maxAmmo = 50;
         public static readonly int MaxAmmo = _maxAmmo;
         private int _currentAmmo;
         private float _currentReloadTimer;
@@ -38,6 +38,7 @@ namespace Player {
         private FiringMode _currentFiringMode;
         private bool _isFiring;
         // Camera:
+        public CameraShake cameraShake;
        
 
 
@@ -123,7 +124,6 @@ namespace Player {
         
         // Changes firing mode:
         private void ChangeFiringMode(InputAction.CallbackContext context) {
-            
             // Change to Plasma:
             if (_currentFiringMode == FiringMode.Bullets) {
                 _currentFiringMode = FiringMode.Plasma;
