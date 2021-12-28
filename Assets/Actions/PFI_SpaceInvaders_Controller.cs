@@ -28,11 +28,11 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Fire"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""aef0bc6c-edab-4a53-a7fc-7f2880443959"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Hold""
                 },
                 {
                     ""name"": ""Change_Firing_Mode"",

@@ -12,6 +12,7 @@ namespace Player {
    
         private void Start() {
             _overheatSlider = transform.GetComponent<Slider>();
+            _overheatSlider.maxValue = PlayerShoot.MaxAmmo;
             _animator = transform.GetComponent<Animator>();
         }
 

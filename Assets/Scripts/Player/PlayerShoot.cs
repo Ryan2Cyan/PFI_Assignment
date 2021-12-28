@@ -15,11 +15,12 @@ namespace Player {
         private static GameObject BulletPrefab => Resources.Load<GameObject>("Prefabs/Bullet");
         private static GameObject PlasmaPrefab => Resources.Load<GameObject>("Prefabs/Plasma");
         private float _currentFireRate;
-        private const float BulletFireRate = 0.2f;
-        private const float PlasmaFireRate = 0.6f;
+        private const float BulletFireRate = 0.1f;
+        private const float PlasmaFireRate = 0.3f;
         private float _currentFireTimer;
         // Reloading
-        private const int MaxAmmo = 12;
+        private static readonly int _maxAmmo = 30;
+        public static readonly int MaxAmmo = _maxAmmo;
         private int _currentAmmo;
         private float _currentReloadTimer;
         private const float ReloadTime = 1f;
@@ -33,18 +34,21 @@ namespace Player {
         // Current Firing Mode:
         private FiringMode _currentFiringMode;
 
+        private bool _isFiring;
 
 
         private void Awake() {
-            
+            _currentFireRate = BulletFireRate;
             _controlsScript = new PFI_SpaceInvaders_Controller();
             _ability1Active = false;
             shipThrusterBig.SetActive(false);
 
             // Link up data from controller to a variable (Movement):
-            _controlsScript.Player.Fire.performed += Fire;
+            _controlsScript.Player.Fire.performed += SetFireTrue;
+            _controlsScript.Player.Fire.canceled += SetFireFalse;
             _controlsScript.Player.Change_Firing_Mode.performed += ChangeFiringMode;
             _controlsScript.Player.Ability_1.performed += Ability1;
+            
             
             // Set how much ammo the player will have:
             _currentAmmo = MaxAmmo;
@@ -69,6 +73,11 @@ namespace Player {
             
             // Ability Timers:
             Ability1Timer();
+
+            // Shoot on Fire input:
+            if (_isFiring) {
+                Fire();
+            }
         }
 
         private void OnEnable() {
@@ -79,8 +88,16 @@ namespace Player {
             _controlsScript.Player.Disable();
         }
 
+        private void SetFireTrue(InputAction.CallbackContext context) {
+            _isFiring = true;
+        }
+        private void SetFireFalse(InputAction.CallbackContext context) {
+            _isFiring = false;
+        }
+        
         // Fires bullet on player input:
-        private void Fire(InputAction.CallbackContext context) {
+        private void Fire() {
+            
             
             // Execute when input is received:
             if (_currentAmmo == 0) return;
@@ -151,9 +168,7 @@ namespace Player {
             var newBullet = Instantiate(prefab);
             newBullet.transform.position = _bulletSpawnPos;
         }
-        
-        
-        
+
         // Activate Ability 1 (Temporary Speed Boost):
         private void Ability1Timer() {
             
