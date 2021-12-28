@@ -1,9 +1,9 @@
 ﻿// Rory Clark - https://rory.games - 2019
 
 using System;
+using Sound;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 namespace Player {
     public class PlayerShoot : MonoBehaviour
@@ -23,28 +23,15 @@ namespace Player {
         private Vector3 _bulletSpawnPos;
         // Abilities:
         public Animator ability1UI;
-        public GameObject ability1InputUI;
-        public Sprite circleInput;
-        public Sprite qInput;
         private static readonly int IsActive = Animator.StringToHash("isActive");
-        // SFX:
-        private FMOD.Studio.EventInstance _reloadBulletSfx;
-        private FMOD.Studio.EventInstance _reloadPlasmaSfx;
+        // Current Firing Mode:
         private FiringMode _currentFiringMode;
-        // UI
-        public Animator firingModeUI;
-        public Slider overheatSlider;
-        private static readonly int IsOverheat = Animator.StringToHash("isOverheat");
-        private static readonly int IsPlasma = Animator.StringToHash("isPlasma");
-        
+
 
 
         private void Awake() {
             
             _controlsScript = new PFI_SpaceInvaders_Controller();
-            _reloadBulletSfx = FMODUnity.RuntimeManager.CreateInstance("event:/Bullet_Reload");
-            _reloadPlasmaSfx = FMODUnity.RuntimeManager.CreateInstance("event:/Plasma_Reload");
-                
             // Link up data from controller to a variable (Movement):
             _controlsScript.Player.Fire.performed += Fire;
             _controlsScript.Player.Change_Firing_Mode.performed += ChangeFiringMode;
@@ -55,8 +42,7 @@ namespace Player {
         }
         
         private void Update() {
-            Debug.Log(_currentFiringMode);
-            
+
             // Set bullet spawn:
             var position = transform.position;
             _bulletSpawnPos = new Vector3(position.x + 1f, position.y, position.z);
@@ -70,12 +56,10 @@ namespace Player {
             }
             
             // Set overheat to show how many bullets the player has shot:
-            SetOverheat();
-
-            // ChangeInputUI();
+            FiringModeUI.SetOverheatSlider(MaxAmmo - _currentAmmo);
 
         }
-        
+
         private void OnEnable() {
             _controlsScript.Player.Enable();
         }
@@ -83,7 +67,7 @@ namespace Player {
         private void OnDisable() {
             _controlsScript.Player.Disable();
         }
-       
+
         // Fires bullet on player input:
         private void Fire(InputAction.CallbackContext context) {
             
@@ -113,60 +97,54 @@ namespace Player {
             // Change to Plasma:
             if (_currentFiringMode == FiringMode.Bullets) {
                 _currentFiringMode = FiringMode.Plasma;
-                firingModeUI.SetBool(IsPlasma, true);
+                FiringModeUI.IsPlasmaActive(true);
                 _fireRate = 0.6f;
             }
             // Change to Bullets:
             else {
                 _currentFiringMode = FiringMode.Bullets;
-                firingModeUI.SetBool(IsPlasma, false);
+                FiringModeUI.IsPlasmaActive(false);
                 _fireRate = 0.2f;
             }
-            
         }
         
-        // Activate Ability 1 (Temporary Speed Boost):
-        private void Ability1(InputAction.CallbackContext context) {
-            Debug.Log("Ability 1");
-            ability1UI.SetBool(IsActive,true);
-        }
-
         // Reloads the ammo according to a reload time:
         private void Reload() {
             
             _currentReloadTimer += Time.deltaTime;
-            overheatSlider.value = 0;
-            firingModeUI.SetBool(IsOverheat, true);
+            FiringModeUI.ResetOverheatSlider();
+            FiringModeUI.IsOverheating(true);
             
             // Once the timer reaches the reload threshold time, refill ammo.
             if (!(_currentReloadTimer >= ReloadTime)) return;
             
             _currentAmmo = MaxAmmo;
             _currentReloadTimer = 0f;
-            firingModeUI.SetBool(IsOverheat, false);
+            FiringModeUI.IsOverheating(false);
                 
             // Play SFX depending on firing mode:
             switch (_currentFiringMode) {
                 case FiringMode.Bullets:
-                    _reloadBulletSfx.start();
+                    SoundEffects.PlaySfx(SoundEffects.SoundEffectID.BulletReload);
                     break;
                 case FiringMode.Plasma:
-                    _reloadPlasmaSfx.start();
+                    SoundEffects.PlaySfx(SoundEffects.SoundEffectID.PlasmaReload);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
-        
+
         // Spawns bullet prefab on player model:
         private void SpawnBullet(GameObject prefab) {
             var newBullet = Instantiate(prefab);
             newBullet.transform.position = _bulletSpawnPos;
         }
-
-        // Set overheat value:
-        private void SetOverheat() {
-            overheatSlider.value = MaxAmmo - _currentAmmo;
+        
+        // Activate Ability 1 (Temporary Speed Boost):
+        private void Ability1(InputAction.CallbackContext context) {
+            Debug.Log("Ability 1");
+            ability1UI.SetBool(IsActive,true);
         }
         
         // Change input UI based on the current input device used:
