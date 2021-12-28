@@ -1,10 +1,13 @@
 ﻿// Rory Clark - https://rory.games - 2019
 
 using System;
+using Camera;
 using Player.UI;
 using Sound;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
+
 
 namespace Player {
     public class PlayerShoot : MonoBehaviour
@@ -33,8 +36,9 @@ namespace Player {
         public GameObject shipThrusterBig;
         // Current Firing Mode:
         private FiringMode _currentFiringMode;
-
         private bool _isFiring;
+        // Camera:
+       
 
 
         private void Awake() {
@@ -55,10 +59,10 @@ namespace Player {
         }
         
         private void Update() {
-
+            
             // Set bullet spawn:
             var position = transform.position;
-            _bulletSpawnPos = new Vector3(position.x + 1f, position.y, position.z);
+            _bulletSpawnPos = new Vector3(position.x + 1f, position.y, position.z + Random.Range(-1f, 1f));
             
             // Decrement firing timer:
             _currentFireTimer -= Time.deltaTime;
@@ -98,11 +102,9 @@ namespace Player {
         // Fires bullet on player input:
         private void Fire() {
             
-            
             // Execute when input is received:
             if (_currentAmmo == 0) return;
             if (!(_currentFireTimer <= 0f)) return;
-
             
             switch (_currentFiringMode) {
                 case FiringMode.Bullets:
@@ -110,7 +112,7 @@ namespace Player {
                     SpawnBullet(BulletPrefab);
                     break;
                 case FiringMode.Plasma:
-                    _currentAmmo -= 3;
+                    _currentAmmo -= 5;
                     SpawnBullet(PlasmaPrefab);
                     break;
                 default:

@@ -4,8 +4,8 @@ using Random = UnityEngine.Random;
 public class AsteroidSpawner : MonoBehaviour {
     
     private float _currentTime = 2f;
-    private const float MAXSpawnTime = 2f;
-    private const float MAXSpawnWidth = 9.5f;
+    private const float MAXSpawnTime = 1.5f;
+    private const float MAXSpawnWidth = 10f;
     private const float MINSpawnWidth = -9.5f;
     private GameObject _asteroidPrefab;
 

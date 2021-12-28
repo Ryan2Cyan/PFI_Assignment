@@ -1,4 +1,5 @@
 ﻿using System;
+using Camera;
 using UnityEngine;
 using Utilities;
 using Random = UnityEngine.Random;
@@ -29,6 +30,7 @@ namespace Asteroids {
         private float _currentScale;
         private bool _finishedScaling;
         private GameObject _explosionPrefab;
+        
 
 
         // Constructor
@@ -188,6 +190,7 @@ namespace Asteroids {
         
         private void SpawnExplosion() {
             var explosion = Instantiate(_explosionPrefab);
+            
             explosion.transform.localPosition = transform.position;
             explosion.transform.localScale = Scale / 2;
         }

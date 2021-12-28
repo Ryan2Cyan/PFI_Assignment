@@ -1,6 +1,7 @@
 ﻿// Rory Clark - https://rory.games - 2019
 
 using Asteroids;
+using Camera;
 using UnityEngine;
 
 namespace Player {
