@@ -222,7 +222,7 @@ namespace Player {
         
         // Activate Ability 2 (Mega Laser Beam):
         private void Ability2Timer() {
-            Debug.Log(_currentAbility2Timer);
+            
             // Cooldown for ability 1:
             _currentAbility2Timer += Time.deltaTime;
             if (_currentAbility2Timer >= Ability2Cooldown) {
@@ -232,6 +232,7 @@ namespace Player {
             // Ability 2 Reset:
             if (_currentAbility2Timer >= Ability2ActivationTime) {
                 if (_ability2Active) {
+                    SoundEffects.PlaySfx(SoundEffects.SoundEffectID.Ability2End);
                     laser.SetActive(false);
                     _ability2Active = false;
                 }
@@ -244,6 +245,7 @@ namespace Player {
             Debug.Log("Ability 2 Active");
             // Activated Ability
             laser.SetActive(true);
+            SoundEffects.PlaySfx(SoundEffects.SoundEffectID.Ability2Start);
             _currentAbility2Timer = 0f;
             _ability2Active = true;
         }

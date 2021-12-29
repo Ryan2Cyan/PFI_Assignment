@@ -17,6 +17,10 @@ namespace Sound {
             FMODUnity.RuntimeManager.CreateInstance("event:/Large_Asteroid_Explosion");
         private static FMOD.Studio.EventInstance AsteroidExplosionSfx => 
             FMODUnity.RuntimeManager.CreateInstance("event:/Asteroid_Explosion_2");
+        private static FMOD.Studio.EventInstance Ability2StartSfx => 
+            FMODUnity.RuntimeManager.CreateInstance("event:/Ability_2_Start");
+        private static FMOD.Studio.EventInstance Ability2EndSfx => 
+            FMODUnity.RuntimeManager.CreateInstance("event:/Ability_2_End");
 
         public static void PlaySfx(SoundEffectID soundEffectID) {
             switch (soundEffectID) {
@@ -38,13 +42,20 @@ namespace Sound {
                 case SoundEffectID.AsteroidExplosion:
                     AsteroidExplosionSfx.start();
                     break;
+                case SoundEffectID.Ability2Start:
+                    Ability2StartSfx.start();
+                    break;
+                case SoundEffectID.Ability2End:
+                    Ability2EndSfx.start();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(soundEffectID), soundEffectID, null);
             }
         }
 
         public enum SoundEffectID {
-            BulletReload, PlasmaReload, Ability1Start, Ability1End, LargeAsteroidExplosion, AsteroidExplosion
+            BulletReload, PlasmaReload, Ability1Start, Ability1End, LargeAsteroidExplosion, AsteroidExplosion,
+            Ability2Start, Ability2End
         }
     }
 }
