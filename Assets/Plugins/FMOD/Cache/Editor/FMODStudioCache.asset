@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: FMOD/Interaction_Assignment_FMOD_Project/Build/Desktop/Asteroid_Explosion_1.bank
   Name: Asteroid_Explosion_1
   StudioPath: bank:/Asteroid_Explosion_1
-  lastModified: 637763327270120659
+  lastModified: 637763812613899192
   LoadResult: 0
   FileSizes: []
   Exists: 1
@@ -33,6 +33,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/Ability_1_Start
   guid: 88013c0b60f2a6438f0174ccd3bb5da6
+  Banks:
+  - {fileID: 3822247287779370721}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
+--- !u!114 &-7111258160914330607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ability_2_End
+  m_EditorClassIdentifier: 
+  Path: event:/Ability_2_End
+  guid: a49af4e6d4d85b4cafdb6312c14e29d1
   Banks:
   - {fileID: 3822247287779370721}
   IsStream: 0
@@ -103,7 +126,7 @@ MonoBehaviour:
   Path: FMOD/Interaction_Assignment_FMOD_Project/Build/Desktop/Asteroid_Explosion_2.bank
   Name: Asteroid_Explosion_2
   StudioPath: bank:/Asteroid_Explosion_2
-  lastModified: 637763327270140825
+  lastModified: 637763812613919166
   LoadResult: 0
   FileSizes: []
   Exists: 1
@@ -185,11 +208,11 @@ MonoBehaviour:
   Path: FMOD/Interaction_Assignment_FMOD_Project/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637763327270559460
+  lastModified: 637763812614277928
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 1274
+    Value: 1370
   Exists: 1
 --- !u!114 &-2811756903480793599
 MonoBehaviour:
@@ -371,12 +394,14 @@ MonoBehaviour:
   - {fileID: -1604277005708787154}
   - {fileID: -138710121924894946}
   - {fileID: 3336803444785735145}
+  - {fileID: -7111258160914330607}
+  - {fileID: 4907165555901121857}
   EditorParameters: []
   MasterBanks:
   - {fileID: 3822247287779370721}
   StringsBanks:
   - {fileID: -3033392569713778929}
-  stringsBankWriteTime: 637763327270559460
+  stringsBankWriteTime: 637763812614277928
   cacheVersion: 6
 --- !u!114 &557128725685687864
 MonoBehaviour:
@@ -551,7 +576,7 @@ MonoBehaviour:
   Path: FMOD/Interaction_Assignment_FMOD_Project/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637763327270539511
+  lastModified: 637763812614248013
   LoadResult: 0
   FileSizes: []
   Exists: 1
@@ -576,6 +601,29 @@ MonoBehaviour:
   - Name: Desktop
     Value: 884
   Exists: 1
+--- !u!114 &4907165555901121857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ability_2_Start
+  m_EditorClassIdentifier: 
+  Path: event:/Ability_2_Start
+  guid: f9ae26019a6e99449a22935122784dc3
+  Banks:
+  - {fileID: 3822247287779370721}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
 --- !u!114 &5885277451044738447
 MonoBehaviour:
   m_ObjectHideFlags: 0

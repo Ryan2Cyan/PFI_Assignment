@@ -35,12 +35,16 @@ namespace Player {
         private const float AbilityActivationTime = 5f;
         private bool _ability1Active;
         public GameObject shipThrusterBig;
+        public AbilityUI ability1UI;
+
         // Ability 2:
         private float _currentAbility2Timer;
         private const float Ability2Cooldown = 30f;
         private const float Ability2ActivationTime = 8f;
         private bool _ability2Active;
         public GameObject laser;
+        public AbilityUI ability2UI;
+        
         
         // Current Firing Mode:
         private FiringMode _currentFiringMode;
@@ -66,13 +70,17 @@ namespace Player {
             
             // Set how much ammo the player will have:
             _currentAmmo = MaxAmmo;
+            
+            // // Set slider max values on cooldown abilities:
+            // ability1UI.SetSliderMax(Ability1Cooldown);
+            // ability2UI.SetSliderMax(Ability2Cooldown);
         }
         
         private void Update() {
             
             // Set bullet spawn:
             var position = transform.position;
-            _bulletSpawnPos = new Vector3(position.x + 1f, position.y, position.z + Random.Range(-1f, 1f));
+            _bulletSpawnPos = new Vector3(position.x + 3f, position.y, position.z + Random.Range(-1f, 1f));
             
             // Decrement firing timer:
             _currentFireTimer -= Time.deltaTime;
@@ -190,9 +198,9 @@ namespace Player {
             
             // Cooldown for ability 1:
             _currentAbility1Timer += Time.deltaTime;
-            Ability1UI.SetCooldownSlider(_currentAbility1Timer);
+            ability1UI.SetCooldownSlider(_currentAbility1Timer);
             if (_currentAbility1Timer >= Ability1Cooldown) {
-                Ability1UI.AbilityActive(true);
+                ability1UI.AbilityActive(true);
             }
             
             // Ability 1 Reset:
@@ -211,7 +219,7 @@ namespace Player {
             if (!(_currentAbility1Timer >= Ability1Cooldown)) return;
             
             PlayerMovement.MovementSpeedBuff();
-            Ability1UI.AbilityActive(false);
+            ability1UI.AbilityActive(false);
             SoundEffects.PlaySfx(SoundEffects.SoundEffectID.Ability1Start);
             _currentAbility1Timer = 0f;
             _ability1Active = true;
@@ -225,8 +233,9 @@ namespace Player {
             
             // Cooldown for ability 1:
             _currentAbility2Timer += Time.deltaTime;
+            ability2UI.SetCooldownSlider(_currentAbility2Timer);
             if (_currentAbility2Timer >= Ability2Cooldown) {
-                // Ability is active
+                ability2UI.AbilityActive(true);
             }
             
             // Ability 2 Reset:
@@ -242,8 +251,9 @@ namespace Player {
         private void Ability2(InputAction.CallbackContext context) {
             
             if (!(_currentAbility2Timer >= Ability2Cooldown)) return;
-            Debug.Log("Ability 2 Active");
-            // Activated Ability
+            
+            // Activated Ability:
+            ability2UI.AbilityActive(false);
             laser.SetActive(true);
             SoundEffects.PlaySfx(SoundEffects.SoundEffectID.Ability2Start);
             _currentAbility2Timer = 0f;
