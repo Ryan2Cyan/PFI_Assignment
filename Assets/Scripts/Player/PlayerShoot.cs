@@ -1,7 +1,6 @@
 ﻿// Rory Clark - https://rory.games - 2019
 
 using System;
-using Camera;
 using Player.UI;
 using Sound;
 using UnityEngine;
@@ -19,10 +18,12 @@ namespace Player {
         private static GameObject PlasmaPrefab => Resources.Load<GameObject>("Prefabs/Plasma");
         private float _currentFireRate;
         private const float BulletFireRate = 0.05f;
-        private const float PlasmaFireRate = 0.15f;
+        private const float PlasmaFireRate = 0.3f;
+        private const int BulletAmmoConsumption = 1;
+        private const int PlasmaAmmoConsumption = 5;
         private float _currentFireTimer;
         // Reloading
-        private static readonly int _maxAmmo = 50;
+        private static readonly int _maxAmmo = 100;
         public static readonly int MaxAmmo = _maxAmmo;
         private int _currentAmmo;
         private float _currentReloadTimer;
@@ -37,8 +38,7 @@ namespace Player {
         // Current Firing Mode:
         private FiringMode _currentFiringMode;
         private bool _isFiring;
-        // Camera:
-        public CameraShake cameraShake;
+        
        
 
 
@@ -82,6 +82,10 @@ namespace Player {
             // Shoot on Fire input:
             if (_isFiring) {
                 Fire();
+                PlayerMovement.DebuffMovementSpeed();
+            }
+            else {
+                PlayerMovement.ResetMovementSpeed();
             }
         }
 
@@ -102,18 +106,18 @@ namespace Player {
         
         // Fires bullet on player input:
         private void Fire() {
-            
+
             // Execute when input is received:
             if (_currentAmmo == 0) return;
             if (!(_currentFireTimer <= 0f)) return;
             
             switch (_currentFiringMode) {
                 case FiringMode.Bullets:
-                    _currentAmmo -= 1;
+                    _currentAmmo -= BulletAmmoConsumption;
                     SpawnBullet(BulletPrefab);
                     break;
                 case FiringMode.Plasma:
-                    _currentAmmo -= 5;
+                    _currentAmmo -= PlasmaAmmoConsumption;
                     SpawnBullet(PlasmaPrefab);
                     break;
                 default:

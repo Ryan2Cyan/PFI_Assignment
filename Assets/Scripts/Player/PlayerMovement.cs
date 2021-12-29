@@ -12,7 +12,8 @@ namespace Player {
         // Objects for movement:
         private static float _currentMovementRate;
         private const float BuffedMovementRate = 1500;
-        private const float DefaultMovementRate = 700;
+        private const float DefaultMovementRate = 900;
+        private const float DebuffedMovementRate = 200;
         private PFI_SpaceInvaders_Controller _controlsScript;
         private static Quaternion OriginalRot => Quaternion.Euler(
             55,
@@ -103,6 +104,10 @@ namespace Player {
 
         public static void ResetMovementSpeed() {
             _currentMovementRate = DefaultMovementRate;
+        }
+
+        public static void DebuffMovementSpeed() {
+            _currentMovementRate = DebuffedMovementRate;
         }
     }
 }
