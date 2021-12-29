@@ -1,5 +1,6 @@
 ﻿using System;
 using Camera;
+using Sound;
 using UnityEngine;
 using Utilities;
 using Random = UnityEngine.Random;
@@ -184,21 +185,25 @@ namespace Asteroids {
 
             if (!(CurrentHealth <= 0)) return;
             // Asteroid's HP is 0:
-            // If large asteroid - apply screen shake and sleep:
+            // Large asteroid:
             if (AsteroidType == AsteroidType.A5) {
                 if (!(UnityEngine.Camera.main is null))
                     UnityEngine.Camera.main.GetComponent<CameraShake>().StartShake(0.2f, 0.6f);
                 Utility.ActivateSleep(0.015f);  
                 SpawnExplosion(_explosionPrefab2);
+                SoundEffects.PlaySfx(SoundEffects.SoundEffectID.LargeAsteroidExplosion);
             }
+            // Other asteroids:
             else {
                 if (Random.Range(0, 100) > 90) {
                     Utility.ActivateSleep(0.015f);  
                     SpawnExplosion(_explosionPrefab2);
+                    SoundEffects.PlaySfx(SoundEffects.SoundEffectID.AsteroidExplosion);
                 }
                 else {
                     Utility.ActivateSleep(0.005f);  
-                    SpawnExplosion(_explosionPrefab);    
+                    SpawnExplosion(_explosionPrefab);   
+                    SoundEffects.PlaySfx(SoundEffects.SoundEffectID.AsteroidExplosion);
                 }
                 
             }
@@ -209,11 +214,6 @@ namespace Asteroids {
             var explosion = Instantiate(prefab);
             explosion.transform.localPosition = transform.position;
             explosion.transform.localScale = Scale / 2;
-        }
-
-        private void OnDestroy() {
-            // if (!(UnityEngine.Camera.main is null))
-            //     UnityEngine.Camera.main.GetComponent<CameraShake>().StartShake(0.1f, 0.2f);
         }
     }
 

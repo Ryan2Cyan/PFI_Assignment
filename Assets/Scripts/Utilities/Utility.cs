@@ -25,15 +25,12 @@ namespace Utilities {
         }
 
         private void Sleep() {
-            Debug.Log("Active Sleep");
             Time.timeScale = 0.1f;
             _pauseTimer += Time.deltaTime;
-            Debug.Log(_pauseTimer);
             if (_pauseTimer >= _pauseDuration) {
                 Time.timeScale = 1;
                 _isActive = false;
                 _pauseTimer = 0f;
-                Debug.Log("Deactive Sleep");
             }
         }
 

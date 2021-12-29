@@ -32,7 +32,7 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
                     ""id"": ""aef0bc6c-edab-4a53-a7fc-7f2880443959"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold""
+                    ""interactions"": ""Hold(duration=0.1)""
                 },
                 {
                     ""name"": ""Change_Firing_Mode"",
