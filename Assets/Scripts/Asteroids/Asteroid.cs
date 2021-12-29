@@ -32,6 +32,7 @@ namespace Asteroids {
         private bool _finishedScaling;
         private GameObject _explosionPrefab;
         private GameObject _explosionPrefab2;
+        private GameObject _smokePrefab;
 
         // Constructor
         public Asteroid(AsteroidType asteroidTypeParam) {
@@ -119,6 +120,7 @@ namespace Asteroids {
             
             _explosionPrefab = Resources.Load<GameObject>("Prefabs/ParticleFX/Explosion");
             _explosionPrefab2 = Resources.Load<GameObject>("Prefabs/ParticleFX/Explosion_2");
+            _smokePrefab = Resources.Load<GameObject>("Prefabs/ParticleFX/Smoke");
         }
 
         private void Update() {
@@ -190,19 +192,21 @@ namespace Asteroids {
                 if (!(UnityEngine.Camera.main is null))
                     UnityEngine.Camera.main.GetComponent<CameraShake>().StartShake(0.2f, 0.6f);
                 Utility.ActivateSleep(0.015f);  
-                SpawnExplosion(_explosionPrefab2);
+                SpawnPrefab(_smokePrefab);
+                SpawnPrefab(_explosionPrefab2);
                 SoundEffects.PlaySfx(SoundEffects.SoundEffectID.LargeAsteroidExplosion);
             }
             // Other asteroids:
             else {
                 if (Random.Range(0, 100) > 90) {
                     Utility.ActivateSleep(0.015f);  
-                    SpawnExplosion(_explosionPrefab2);
+                    SpawnPrefab(_smokePrefab);
+                    SpawnPrefab(_explosionPrefab2);
                     SoundEffects.PlaySfx(SoundEffects.SoundEffectID.AsteroidExplosion);
                 }
                 else {
                     Utility.ActivateSleep(0.005f);  
-                    SpawnExplosion(_explosionPrefab);   
+                    SpawnPrefab(_explosionPrefab);   
                     SoundEffects.PlaySfx(SoundEffects.SoundEffectID.AsteroidExplosion);
                 }
                 
@@ -210,7 +214,7 @@ namespace Asteroids {
             Destroy(gameObject);
         }
         
-        private void SpawnExplosion(GameObject prefab) {
+        private void SpawnPrefab(GameObject prefab) {
             var explosion = Instantiate(prefab);
             explosion.transform.localPosition = transform.position;
             explosion.transform.localScale = Scale / 2;

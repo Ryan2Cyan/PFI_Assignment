@@ -17,13 +17,13 @@ namespace Player {
         private static GameObject BulletPrefab => Resources.Load<GameObject>("Prefabs/Bullet");
         private static GameObject PlasmaPrefab => Resources.Load<GameObject>("Prefabs/Plasma");
         private float _currentFireRate;
-        private const float BulletFireRate = 0.05f;
+        private const float BulletFireRate = 0f;
         private const float PlasmaFireRate = 0.3f;
         private const int BulletAmmoConsumption = 1;
         private const int PlasmaAmmoConsumption = 5;
         private float _currentFireTimer;
         // Reloading
-        private static readonly int _maxAmmo = 100;
+        private static readonly int _maxAmmo = 500;
         public static readonly int MaxAmmo = _maxAmmo;
         private int _currentAmmo;
         private float _currentReloadTimer;
@@ -35,6 +35,13 @@ namespace Player {
         private const float AbilityActivationTime = 5f;
         private bool _ability1Active;
         public GameObject shipThrusterBig;
+        // Ability 2:
+        private float _currentAbility2Timer;
+        private const float Ability2Cooldown = 30f;
+        private const float Ability2ActivationTime = 8f;
+        private bool _ability2Active;
+        public GameObject laser;
+        
         // Current Firing Mode:
         private FiringMode _currentFiringMode;
         private bool _isFiring;
@@ -46,6 +53,8 @@ namespace Player {
             _currentFireRate = BulletFireRate;
             _controlsScript = new PFI_SpaceInvaders_Controller();
             _ability1Active = false;
+            _ability2Active = false;
+            laser.SetActive(false);
             shipThrusterBig.SetActive(false);
 
             // Link up data from controller to a variable (Movement):
@@ -53,7 +62,7 @@ namespace Player {
             _controlsScript.Player.Fire.canceled += SetFireFalse;
             _controlsScript.Player.Change_Firing_Mode.performed += ChangeFiringMode;
             _controlsScript.Player.Ability_1.performed += Ability1;
-            
+            _controlsScript.Player.Ability_2.performed += Ability2;
             
             // Set how much ammo the player will have:
             _currentAmmo = MaxAmmo;
@@ -78,6 +87,7 @@ namespace Player {
             
             // Ability Timers:
             Ability1Timer();
+            Ability2Timer(); 
 
             // Shoot on Fire input:
             if (_isFiring) {
@@ -196,7 +206,6 @@ namespace Player {
                 }
             }
         }
-        
         private void Ability1(InputAction.CallbackContext context) {
             
             if (!(_currentAbility1Timer >= Ability1Cooldown)) return;
@@ -208,6 +217,35 @@ namespace Player {
             _ability1Active = true;
             shipThrusterBig.SetActive(true);
             _currentFireRate /= 2f;
+        }
+        
+        
+        // Activate Ability 2 (Mega Laser Beam):
+        private void Ability2Timer() {
+            Debug.Log(_currentAbility2Timer);
+            // Cooldown for ability 1:
+            _currentAbility2Timer += Time.deltaTime;
+            if (_currentAbility2Timer >= Ability2Cooldown) {
+                // Ability is active
+            }
+            
+            // Ability 2 Reset:
+            if (_currentAbility2Timer >= Ability2ActivationTime) {
+                if (_ability2Active) {
+                    laser.SetActive(false);
+                    _ability2Active = false;
+                }
+            }
+        }
+        
+        private void Ability2(InputAction.CallbackContext context) {
+            
+            if (!(_currentAbility2Timer >= Ability2Cooldown)) return;
+            Debug.Log("Ability 2 Active");
+            // Activated Ability
+            laser.SetActive(true);
+            _currentAbility2Timer = 0f;
+            _ability2Active = true;
         }
         
 
