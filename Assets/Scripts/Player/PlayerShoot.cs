@@ -1,10 +1,12 @@
 ﻿// Rory Clark - https://rory.games - 2019
 
 using System;
+using FMOD.Studio;
 using Player.UI;
 using Sound;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 
@@ -69,13 +71,10 @@ namespace Player {
             _controlsScript.Player.Change_Firing_Mode.performed += ChangeFiringMode;
             _controlsScript.Player.Ability_1.performed += Ability1;
             _controlsScript.Player.Ability_2.performed += Ability2;
+            _controlsScript.Player.Escape.performed += ReturnToMenu;
             
             // Set how much ammo the player will have:
             _currentAmmo = MaxAmmo;
-            
-            // // Set slider max values on cooldown abilities:
-            // ability1UI.SetSliderMax(Ability1Cooldown);
-            // ability2UI.SetSliderMax(Ability2Cooldown);
         }
         
         private void Update() {
@@ -251,7 +250,6 @@ namespace Player {
                 }
             }
         }
-        
         private void Ability2(InputAction.CallbackContext context) {
             
             if (!(_currentAbility2Timer >= Ability2Cooldown)) return;
@@ -264,6 +262,11 @@ namespace Player {
             _ability2Active = true;
         }
         
+        // Return to Menu:
+        private void ReturnToMenu(InputAction.CallbackContext context) {
+            SceneManager.LoadScene("Menu");
+            BackgroundMusic.BackingTrack.stop(STOP_MODE.IMMEDIATE);
+        }
 
         private enum FiringMode {
             Bullets, Plasma

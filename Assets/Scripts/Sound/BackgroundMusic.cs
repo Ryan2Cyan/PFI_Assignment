@@ -1,15 +1,16 @@
-﻿using UnityEngine;
+﻿using FMOD.Studio;
+using UnityEngine;
 
 namespace Sound {
     public class BackgroundMusic : MonoBehaviour {
         
-        private static FMOD.Studio.EventInstance _backingTrack;
+        public static FMOD.Studio.EventInstance BackingTrack;
 
         private void Start() {
             
-            _backingTrack = FMODUnity.RuntimeManager.CreateInstance("event:/Backing_Track");
-            _backingTrack.start();
-            _backingTrack.release();
+            BackingTrack = FMODUnity.RuntimeManager.CreateInstance("event:/Backing_Track");
+            BackingTrack.start();
+            BackingTrack.release();
         }
     }
 }

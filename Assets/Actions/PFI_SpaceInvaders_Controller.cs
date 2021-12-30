@@ -65,6 +65,14 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""d5b9ad22-0976-43ae-850c-fa24777c9eda"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -296,6 +304,28 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Ability_2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e0b40e4d-5529-49aa-be03-802496627fc8"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cdd58aa8-54d2-4969-8809-fb0c607f2d9f"",
+                    ""path"": ""<Gamepad>/touchpadButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -806,6 +836,33 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""49c68d9f-9f6e-47ea-950b-d6a82c323250"",
+            ""actions"": [
+                {
+                    ""name"": ""Play"",
+                    ""type"": ""Button"",
+                    ""id"": ""6ec43a62-0e02-4fe5-9089-65b21b63e26d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""421c529e-dacf-4265-bc06-e2c350fc3f1f"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Play"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -879,6 +936,7 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
         m_Player_Ability_1 = m_Player.FindAction("Ability_1", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_Ability_2 = m_Player.FindAction("Ability_2", throwIfNotFound: true);
+        m_Player_Escape = m_Player.FindAction("Escape", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -891,6 +949,9 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_Play = m_Menu.FindAction("Play", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -946,6 +1007,7 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Ability_1;
     private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_Ability_2;
+    private readonly InputAction m_Player_Escape;
     public struct PlayerActions
     {
         private @PFI_SpaceInvaders_Controller m_Wrapper;
@@ -956,6 +1018,7 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
         public InputAction @Ability_1 => m_Wrapper.m_Player_Ability_1;
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputAction @Ability_2 => m_Wrapper.m_Player_Ability_2;
+        public InputAction @Escape => m_Wrapper.m_Player_Escape;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -983,6 +1046,9 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
                 @Ability_2.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility_2;
                 @Ability_2.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility_2;
                 @Ability_2.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbility_2;
+                @Escape.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
+                @Escape.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
+                @Escape.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1005,6 +1071,9 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
                 @Ability_2.started += instance.OnAbility_2;
                 @Ability_2.performed += instance.OnAbility_2;
                 @Ability_2.canceled += instance.OnAbility_2;
+                @Escape.started += instance.OnEscape;
+                @Escape.performed += instance.OnEscape;
+                @Escape.canceled += instance.OnEscape;
             }
         }
     }
@@ -1114,6 +1183,39 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private IMenuActions m_MenuActionsCallbackInterface;
+    private readonly InputAction m_Menu_Play;
+    public struct MenuActions
+    {
+        private @PFI_SpaceInvaders_Controller m_Wrapper;
+        public MenuActions(@PFI_SpaceInvaders_Controller wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Play => m_Wrapper.m_Menu_Play;
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        public void SetCallbacks(IMenuActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsCallbackInterface != null)
+            {
+                @Play.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnPlay;
+                @Play.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnPlay;
+                @Play.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnPlay;
+            }
+            m_Wrapper.m_MenuActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Play.started += instance.OnPlay;
+                @Play.performed += instance.OnPlay;
+                @Play.canceled += instance.OnPlay;
+            }
+        }
+    }
+    public MenuActions @Menu => new MenuActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1167,6 +1269,7 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
         void OnAbility_1(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
         void OnAbility_2(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1180,5 +1283,9 @@ public class @PFI_SpaceInvaders_Controller : IInputActionCollection, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+    }
+    public interface IMenuActions
+    {
+        void OnPlay(InputAction.CallbackContext context);
     }
 }

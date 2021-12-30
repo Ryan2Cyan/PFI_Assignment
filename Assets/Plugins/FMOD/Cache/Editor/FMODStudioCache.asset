@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: FMOD/Interaction_Assignment_FMOD_Project/Build/Desktop/Asteroid_Explosion_1.bank
   Name: Asteroid_Explosion_1
   StudioPath: bank:/Asteroid_Explosion_1
-  lastModified: 637764211217637987
+  lastModified: 637764225975558760
   LoadResult: 0
   FileSizes: []
   Exists: 1
@@ -126,7 +126,7 @@ MonoBehaviour:
   Path: FMOD/Interaction_Assignment_FMOD_Project/Build/Desktop/Asteroid_Explosion_2.bank
   Name: Asteroid_Explosion_2
   StudioPath: bank:/Asteroid_Explosion_2
-  lastModified: 637764211217667672
+  lastModified: 637764225975588430
   LoadResult: 0
   FileSizes: []
   Exists: 1
@@ -231,7 +231,7 @@ MonoBehaviour:
   Path: FMOD/Interaction_Assignment_FMOD_Project/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637764211218126436
+  lastModified: 637764225976047203
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -425,7 +425,7 @@ MonoBehaviour:
   - {fileID: 3822247287779370721}
   StringsBanks:
   - {fileID: -3033392569713778929}
-  stringsBankWriteTime: 637764211218126436
+  stringsBankWriteTime: 637764225976047203
   cacheVersion: 6
 --- !u!114 &557128725685687864
 MonoBehaviour:
@@ -600,7 +600,7 @@ MonoBehaviour:
   Path: FMOD/Interaction_Assignment_FMOD_Project/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637764211218096524
+  lastModified: 637764225976017280
   LoadResult: 0
   FileSizes: []
   Exists: 1
