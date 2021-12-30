@@ -89,20 +89,6 @@ AnimationClip:
       value: {fileID: 21300000, guid: 5d1584e9d1f3564489a33327bca04cc5, type: 3}
     - time: 1.1333333
       value: {fileID: 21300000, guid: 321e78cce8145054daa73e8366412597, type: 3}
-    - time: 1.1666666
-      value: {fileID: 21300000, guid: af95fea0be419074399f278667997b92, type: 3}
-    - time: 1.2
-      value: {fileID: 21300000, guid: 258a93470c7ed8c4abe3c4cff509c12a, type: 3}
-    - time: 1.2333333
-      value: {fileID: 21300000, guid: d188cf43ef77195449d35cdf180bbde9, type: 3}
-    - time: 1.2666667
-      value: {fileID: 21300000, guid: bfdaf8662b52da54daadc75e0b455b88, type: 3}
-    - time: 1.3
-      value: {fileID: 21300000, guid: d48b7fa7b6c183a4fa899bac7573abc8, type: 3}
-    - time: 1.3333334
-      value: {fileID: 21300000, guid: fa6b55862cc12f24f91494e13849b2e6, type: 3}
-    - time: 1.3666667
-      value: {fileID: 21300000, guid: 8443f27b01053a4428b50053b18b4c0a, type: 3}
     attribute: m_Sprite
     path: 
     classID: 114
@@ -157,19 +143,12 @@ AnimationClip:
     - {fileID: 21300000, guid: 65e2a6ecc443fe945a2f3bcdb069458c, type: 3}
     - {fileID: 21300000, guid: 5d1584e9d1f3564489a33327bca04cc5, type: 3}
     - {fileID: 21300000, guid: 321e78cce8145054daa73e8366412597, type: 3}
-    - {fileID: 21300000, guid: af95fea0be419074399f278667997b92, type: 3}
-    - {fileID: 21300000, guid: 258a93470c7ed8c4abe3c4cff509c12a, type: 3}
-    - {fileID: 21300000, guid: d188cf43ef77195449d35cdf180bbde9, type: 3}
-    - {fileID: 21300000, guid: bfdaf8662b52da54daadc75e0b455b88, type: 3}
-    - {fileID: 21300000, guid: d48b7fa7b6c183a4fa899bac7573abc8, type: 3}
-    - {fileID: 21300000, guid: fa6b55862cc12f24f91494e13849b2e6, type: 3}
-    - {fileID: 21300000, guid: 8443f27b01053a4428b50053b18b4c0a, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.4
+    m_StopTime: 1.1666666
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

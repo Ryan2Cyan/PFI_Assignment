@@ -1,5 +1,7 @@
 ﻿using System;
 using Camera;
+using Game;
+using Player;
 using Sound;
 using UnityEngine;
 using Utilities;
@@ -24,6 +26,9 @@ namespace Asteroids {
 
         [SerializeField] private AsteroidType asteroidType;
         public AsteroidType AsteroidType => asteroidType;
+        
+        [SerializeField] private int damageToPlayer;
+        public int DamageToPlayer => damageToPlayer;
 
         private Rigidbody _asteroidRigidbody;
         [SerializeField]
@@ -73,7 +78,8 @@ namespace Asteroids {
                     CurrentHealth = 1f;
                     velocity = 25f;
                     scale = new Vector3(1f, 1f, 1f);
-                    scoreValue = 50;
+                    scoreValue = 5;
+                    damageToPlayer = 1;
                     break;
                 case AsteroidType.A2:
                     asteroidType = AsteroidType.A2;
@@ -81,7 +87,8 @@ namespace Asteroids {
                     CurrentHealth = 2f;
                     velocity = 20f;
                     scale = new Vector3(1.5f, 1.5f, 1.5f);
-                    scoreValue = 30;
+                    scoreValue = 10;
+                    damageToPlayer = 3;
                     break;
                 case AsteroidType.A3:
                     asteroidType = AsteroidType.A3;
@@ -89,7 +96,8 @@ namespace Asteroids {
                     CurrentHealth = 2f;
                     velocity = 15f;
                     scale = new Vector3(2f, 2f, 2f);
-                    scoreValue = 30;
+                    scoreValue = 20;
+                    damageToPlayer = 5;
                     break;
                 case AsteroidType.A4:
                     asteroidType = AsteroidType.A4;
@@ -97,7 +105,8 @@ namespace Asteroids {
                     CurrentHealth = 4f;
                     velocity = 10f;
                     scale = new Vector3(2.5f, 2.5f, 2.5f);
-                    scoreValue = 40;
+                    scoreValue = 30;
+                    damageToPlayer = 6;
                     break;
                 case AsteroidType.A5:
                     asteroidType = AsteroidType.A5;
@@ -106,6 +115,7 @@ namespace Asteroids {
                     velocity = 2f;
                     scale = new Vector3(8f, 8f, 8f);
                     scoreValue = 50;
+                    damageToPlayer = 15;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(asteroidType), asteroidType, null);
@@ -150,8 +160,9 @@ namespace Asteroids {
         }
         
         private void OutOfBoundsCheck(float xPos, float threshold) {
-            if (xPos <= threshold)
-                Destroy(gameObject);
+            if (!(xPos <= threshold)) return;
+            PlayerHealth.DamagePlayer(damageToPlayer);
+            Destroy(gameObject);
         }
         
         private void ScaleOnSpawn(ref float timeParam, ref bool isFullScale, float lerpTime, float desiredScaleParam) {
@@ -187,6 +198,9 @@ namespace Asteroids {
 
             if (!(CurrentHealth <= 0)) return;
             // Asteroid's HP is 0:
+            // Add asteroid score to total score:
+            GameController.AddScore(ScoreValue);
+            
             // Large asteroid:
             if (AsteroidType == AsteroidType.A5) {
                 if (!(UnityEngine.Camera.main is null))

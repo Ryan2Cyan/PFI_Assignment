@@ -17,7 +17,7 @@ namespace Player {
         private static GameObject BulletPrefab => Resources.Load<GameObject>("Prefabs/Bullet");
         private static GameObject PlasmaPrefab => Resources.Load<GameObject>("Prefabs/Plasma");
         private float _currentFireRate;
-        private const float BulletFireRate = 0f;
+        private const float BulletFireRate = 0.1f;
         private const float PlasmaFireRate = 0.3f;
         private const int BulletAmmoConsumption = 1;
         private const int PlasmaAmmoConsumption = 5;
@@ -33,6 +33,8 @@ namespace Player {
         private float _currentAbility1Timer;
         private const float Ability1Cooldown = 10f;
         private const float AbilityActivationTime = 5f;
+        private const float BuffBulletFireRate = 0f;
+        private const float BuffPlasmaFireRate = 0.1f;
         private bool _ability1Active;
         public GameObject shipThrusterBig;
         public AbilityUI ability1UI;
@@ -100,7 +102,9 @@ namespace Player {
             // Shoot on Fire input:
             if (_isFiring) {
                 Fire();
-                PlayerMovement.DebuffMovementSpeed();
+                if (!_ability1Active) {
+                    PlayerMovement.DebuffMovementSpeed();
+                }
             }
             else {
                 PlayerMovement.ResetMovementSpeed();
@@ -150,13 +154,13 @@ namespace Player {
             if (_currentFiringMode == FiringMode.Bullets) {
                 _currentFiringMode = FiringMode.Plasma;
                 FiringModeUI.IsPlasmaActive(true);
-                _currentFireRate = PlasmaFireRate;
+                _currentFireRate = _ability1Active ? BuffPlasmaFireRate : PlasmaFireRate;
             }
             // Change to Bullets:
             else {
                 _currentFiringMode = FiringMode.Bullets;
                 FiringModeUI.IsPlasmaActive(false);
-                _currentFireRate = BulletFireRate;
+                _currentFireRate = _ability1Active ? BuffBulletFireRate : BulletFireRate;
             }
         }
         
@@ -210,7 +214,7 @@ namespace Player {
                     SoundEffects.PlaySfx(SoundEffects.SoundEffectID.Ability1End);
                     _ability1Active = false;
                     shipThrusterBig.SetActive(false);
-                    _currentFireRate *= 2f;
+                    _currentFireRate = _currentFiringMode == FiringMode.Bullets ? BulletFireRate : PlasmaFireRate;
                 }
             }
         }
@@ -224,7 +228,7 @@ namespace Player {
             _currentAbility1Timer = 0f;
             _ability1Active = true;
             shipThrusterBig.SetActive(true);
-            _currentFireRate /= 2f;
+            _currentFireRate = _currentFiringMode == FiringMode.Bullets ? BuffBulletFireRate : BuffPlasmaFireRate;
         }
         
         

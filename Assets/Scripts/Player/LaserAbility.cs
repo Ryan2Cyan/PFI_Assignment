@@ -17,7 +17,6 @@ namespace Player {
         
         private void OnTriggerEnter(Collider target) {
             if (target.gameObject.CompareTag("Asteroid")) {
-                Debug.Log("Asteroid Collision");
                 target.GetComponent<Asteroid>().DamageAsteroid(100);
             }
         }
