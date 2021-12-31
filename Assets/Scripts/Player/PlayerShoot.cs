@@ -40,7 +40,6 @@ namespace Player {
         private bool _ability1Active;
         public GameObject shipThrusterBig;
         public AbilityUI ability1UI;
-
         // Ability 2:
         private float _currentAbility2Timer;
         private const float Ability2Cooldown = 30f;
@@ -48,8 +47,9 @@ namespace Player {
         private bool _ability2Active;
         public GameObject laser;
         public AbilityUI ability2UI;
-        
-        
+        // Pause:
+        private bool _isPaused;
+        public GameObject pauseText;
         // Current Firing Mode:
         private FiringMode _currentFiringMode;
         private bool _isFiring;
@@ -62,6 +62,7 @@ namespace Player {
             _controlsScript = new PFI_SpaceInvaders_Controller();
             _ability1Active = false;
             _ability2Active = false;
+            _isPaused = false;
             laser.SetActive(false);
             shipThrusterBig.SetActive(false);
 
@@ -72,6 +73,7 @@ namespace Player {
             _controlsScript.Player.Ability_1.performed += Ability1;
             _controlsScript.Player.Ability_2.performed += Ability2;
             _controlsScript.Player.Escape.performed += ReturnToMenu;
+            _controlsScript.Player.Pause.performed += Pause;
             
             // Set how much ammo the player will have:
             _currentAmmo = MaxAmmo;
@@ -266,6 +268,20 @@ namespace Player {
         private void ReturnToMenu(InputAction.CallbackContext context) {
             SceneManager.LoadScene("Menu");
             BackgroundMusic.BackingTrack.stop(STOP_MODE.IMMEDIATE);
+        }
+        
+        // Return to Menu:
+        private void Pause(InputAction.CallbackContext context) {
+            if (!_isPaused) {
+                pauseText.SetActive(true);
+                Time.timeScale = 0;
+                _isPaused = true;
+            }
+            else {
+                Time.timeScale = 1;
+                pauseText.SetActive(false);
+                _isPaused = false;
+            }
         }
 
         private enum FiringMode {
