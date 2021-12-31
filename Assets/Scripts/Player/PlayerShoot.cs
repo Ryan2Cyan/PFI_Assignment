@@ -14,7 +14,7 @@ namespace Player {
     public class PlayerShoot : MonoBehaviour
     {
         // Actions:
-        private PFI_SpaceInvaders_Controller _controlsScript;
+        public static PFI_SpaceInvaders_Controller ControlsScript;
         // Shooting:
         private static GameObject BulletPrefab => Resources.Load<GameObject>("Prefabs/Bullet");
         private static GameObject PlasmaPrefab => Resources.Load<GameObject>("Prefabs/Plasma");
@@ -59,7 +59,7 @@ namespace Player {
 
         private void Awake() {
             _currentFireRate = BulletFireRate;
-            _controlsScript = new PFI_SpaceInvaders_Controller();
+            ControlsScript = new PFI_SpaceInvaders_Controller();
             _ability1Active = false;
             _ability2Active = false;
             _isPaused = false;
@@ -67,13 +67,13 @@ namespace Player {
             shipThrusterBig.SetActive(false);
 
             // Link up data from controller to a variable (Movement):
-            _controlsScript.Player.Fire.performed += SetFireTrue;
-            _controlsScript.Player.Fire.canceled += SetFireFalse;
-            _controlsScript.Player.Change_Firing_Mode.performed += ChangeFiringMode;
-            _controlsScript.Player.Ability_1.performed += Ability1;
-            _controlsScript.Player.Ability_2.performed += Ability2;
-            _controlsScript.Player.Escape.performed += ReturnToMenu;
-            _controlsScript.Player.Pause.performed += Pause;
+            ControlsScript.Player.Fire.performed += SetFireTrue;
+            ControlsScript.Player.Fire.canceled += SetFireFalse;
+            ControlsScript.Player.Change_Firing_Mode.performed += ChangeFiringMode;
+            ControlsScript.Player.Ability_1.performed += Ability1;
+            ControlsScript.Player.Ability_2.performed += Ability2;
+            ControlsScript.Player.Escape.performed += ReturnToMenu;
+            ControlsScript.Player.Pause.performed += Pause;
             
             // Set how much ammo the player will have:
             _currentAmmo = MaxAmmo;
@@ -113,11 +113,11 @@ namespace Player {
         }
 
         private void OnEnable() {
-            _controlsScript.Player.Enable();
+            ControlsScript.Player.Enable();
         }
 
         private void OnDisable() {
-            _controlsScript.Player.Disable();
+            ControlsScript.Player.Disable();
         }
 
         private void SetFireTrue(InputAction.CallbackContext context) {
@@ -266,6 +266,7 @@ namespace Player {
             SceneManager.LoadScene("Menu");
             BackgroundMusic.BackingTrack.stop(STOP_MODE.IMMEDIATE);
         }
+        
         // Return to Menu:
         private void Pause(InputAction.CallbackContext context) {
             if (!_isPaused) {

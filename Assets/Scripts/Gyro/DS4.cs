@@ -19,12 +19,15 @@ namespace Gyro {
         // Func that replaces default layout of DS4 with one defined in JSON file:
         public static Gamepad GetController(string layoutFile = null) {
             
-            // Read layout from JSON file:
-            var layout =
-                File.ReadAllText(layoutFile ?? "Assets/Scripts/JSON/DS4_Custom_Layout.json");
+            // // Read layout from JSON file:
+            // var layout =
+            //     File.ReadAllText(layoutFile ?? "Resources/JSON/DS4_Custom_Layout.json");
+            
+            var txt = (TextAsset)Resources.Load("JSON/DS4_Custom_Layout", typeof(TextAsset));
+            var content = txt.text;
             
             // Overwrite the default layout:
-            InputSystem.RegisterLayoutOverride(layout, "DualShock4GamepadHID");
+            InputSystem.RegisterLayoutOverride(content, "DualShock4GamepadHID");
             
             // Return overridden gamepad:
             var ds4 = Gamepad.current;
