@@ -23,6 +23,8 @@ namespace Sound {
             FMODUnity.RuntimeManager.CreateInstance("event:/Ability_2_End");
         private static FMOD.Studio.EventInstance PlayerHurtSfx => 
             FMODUnity.RuntimeManager.CreateInstance("event:/Player_Hurt");
+        private static FMOD.Studio.EventInstance BulletShootSfx => 
+            FMODUnity.RuntimeManager.CreateInstance("event:/Bullet_Shoot");
 
         public static void PlaySfx(SoundEffectID soundEffectID) {
             switch (soundEffectID) {
@@ -53,6 +55,9 @@ namespace Sound {
                 case SoundEffectID.PlayerHurt:
                     PlayerHurtSfx.start();
                     break;
+                case SoundEffectID.BulletShoot:
+                    BulletShootSfx.start();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(soundEffectID), soundEffectID, null);
             }
@@ -60,7 +65,7 @@ namespace Sound {
 
         public enum SoundEffectID {
             BulletReload, PlasmaReload, Ability1Start, Ability1End, LargeAsteroidExplosion, AsteroidExplosion,
-            Ability2Start, Ability2End, PlayerHurt
+            Ability2Start, Ability2End, PlayerHurt, BulletShoot
         }
     }
 }
