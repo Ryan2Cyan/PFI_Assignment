@@ -39,5 +39,9 @@ namespace Menu {
             var eventSystem = EventSystem.current;
             eventSystem.SetSelectedGameObject(playButton, new BaseEventData(eventSystem));
         }
+
+        public void Quit() {
+            Application.Quit();
+        }
     }
 }

@@ -191,13 +191,11 @@ namespace Player {
                     throw new ArgumentOutOfRangeException();
             }
         }
-
         // Spawns bullet prefab on player model:
         private void SpawnBullet(GameObject prefab) {
             var newBullet = Instantiate(prefab);
             newBullet.transform.position = _bulletSpawnPos;
         }
-
         // Activate Ability 1 (Temporary Speed Boost):
         private void Ability1Timer() {
             
@@ -231,7 +229,6 @@ namespace Player {
             shipThrusterBig.SetActive(true);
             _currentFireRate = _currentFiringMode == FiringMode.Bullets ? BuffBulletFireRate : BuffPlasmaFireRate;
         }
-        
         
         // Activate Ability 2 (Mega Laser Beam):
         private void Ability2Timer() {
@@ -269,7 +266,6 @@ namespace Player {
             SceneManager.LoadScene("Menu");
             BackgroundMusic.BackingTrack.stop(STOP_MODE.IMMEDIATE);
         }
-        
         // Return to Menu:
         private void Pause(InputAction.CallbackContext context) {
             if (!_isPaused) {
