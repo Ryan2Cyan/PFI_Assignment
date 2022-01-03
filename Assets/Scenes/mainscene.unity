@@ -410,7 +410,7 @@ MonoBehaviour:
   ability1UI: {fileID: 1009359574}
   laser: {fileID: 1223890757}
   ability2UI: {fileID: 975550525}
-  pauseText: {fileID: 0}
+  pauseText: {fileID: 28855940}
 --- !u!1 &150732084
 GameObject:
   m_ObjectHideFlags: 0
