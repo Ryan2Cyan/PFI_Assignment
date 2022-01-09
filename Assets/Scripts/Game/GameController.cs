@@ -1,4 +1,5 @@
-﻿using FMOD.Studio;
+﻿using System;
+using FMOD.Studio;
 using Player;
 using Sound;
 using TMPro;
@@ -32,6 +33,7 @@ namespace Game {
         public GameObject gameOverUI;
         public TextMeshProUGUI gameOverScore;
         public TextMeshProUGUI gameOverWave;
+        public TextMeshProUGUI gameOverRunTime;
         private float _gameOverTimer;
         private const float GameOverLength = 10f;
         private bool _isGameOver;
@@ -44,9 +46,11 @@ namespace Game {
             _score = 0;
             _round = 0;
             _isGameOver = false;
+            gameOverUI.SetActive(false);
         }
 
         private void Update() {
+            _runTime += Time.deltaTime;
             _roundTime += Time.deltaTime;
 
             if (_roundTime >= NextRoundThreshold) {
@@ -59,13 +63,15 @@ namespace Game {
                 _gameOverTimer += Time.deltaTime;
                 if (_gameOverTimer >= GameOverLength) {
                     gameOverUI.SetActive(false);
-                    BackgroundMusic.BackingTrack.stop(STOP_MODE.IMMEDIATE);
                     SceneManager.LoadScene("Menu");
                 }
 
                 if (!_isGameOver) {
+                    BackgroundMusic.BackingTrack.stop(STOP_MODE.IMMEDIATE);
+                    SoundEffects.PlaySfx(SoundEffects.SoundEffectID.GameOver);
                     gameOverScore.text = "Score: " + Score;
                     gameOverWave.text = "Wave: " + Round;
+                    gameOverRunTime.text = "Run Time: " + Math.Round(RunTime, 2);
                     gameOverUI.SetActive(true);
                     _isGameOver = true;
                 }

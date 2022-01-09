@@ -26,7 +26,7 @@ namespace Sound {
         private static FMOD.Studio.EventInstance BulletShootSfx => 
             FMODUnity.RuntimeManager.CreateInstance("event:/Bullet_Shoot");
         private static FMOD.Studio.EventInstance GameOverSfx => 
-            FMODUnity.RuntimeManager.CreateInstance("event:/Game_Over");
+            FMODUnity.RuntimeManager.CreateInstance("event:/Gameover");
 
         public static void PlaySfx(SoundEffectID soundEffectID) {
             switch (soundEffectID) {
