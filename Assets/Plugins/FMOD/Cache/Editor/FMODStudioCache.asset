@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: FMOD/Interaction_Assignment_FMOD_Project/Build/Desktop/Asteroid_Explosion_1.bank
   Name: Asteroid_Explosion_1
   StudioPath: bank:/Asteroid_Explosion_1
-  lastModified: 637765636707327633
+  lastModified: 637773215646409317
   LoadResult: 0
   FileSizes: []
   Exists: 1
@@ -33,6 +33,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/Ability_1_Start
   guid: 88013c0b60f2a6438f0174ccd3bb5da6
+  Banks:
+  - {fileID: 3822247287779370721}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
+--- !u!114 &-8231849237741629833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Gameover
+  m_EditorClassIdentifier: 
+  Path: event:/Gameover
+  guid: d06414ee3f7e7943a2c45eda7a283501
   Banks:
   - {fileID: 3822247287779370721}
   IsStream: 0
@@ -126,7 +149,7 @@ MonoBehaviour:
   Path: FMOD/Interaction_Assignment_FMOD_Project/Build/Desktop/Asteroid_Explosion_2.bank
   Name: Asteroid_Explosion_2
   StudioPath: bank:/Asteroid_Explosion_2
-  lastModified: 637765636707407415
+  lastModified: 637773215646768384
   LoadResult: 0
   FileSizes: []
   Exists: 1
@@ -231,11 +254,11 @@ MonoBehaviour:
   Path: FMOD/Interaction_Assignment_FMOD_Project/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637765636712490585
+  lastModified: 637773215647451965
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 1460
+    Value: 1508
   Exists: 1
 --- !u!114 &-2811756903480793599
 MonoBehaviour:
@@ -421,12 +444,13 @@ MonoBehaviour:
   - {fileID: 4907165555901121857}
   - {fileID: -4619295275318953776}
   - {fileID: 2321250969462131509}
+  - {fileID: -8231849237741629833}
   EditorParameters: []
   MasterBanks:
   - {fileID: 3822247287779370721}
   StringsBanks:
   - {fileID: -3033392569713778929}
-  stringsBankWriteTime: 637765636712490585
+  stringsBankWriteTime: 637773215647451965
   cacheVersion: 6
 --- !u!114 &557128725685687864
 MonoBehaviour:
@@ -624,7 +648,7 @@ MonoBehaviour:
   Path: FMOD/Interaction_Assignment_FMOD_Project/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637765636712460663
+  lastModified: 637773215647422047
   LoadResult: 0
   FileSizes: []
   Exists: 1
